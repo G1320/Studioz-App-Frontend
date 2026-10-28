@@ -31,6 +31,12 @@ interface ProjectFileUploaderProps {
   maxFiles?: number;
   disabled?: boolean;
   downloadsLocked?: boolean;
+  /** The user's role has no download capability: hide download controls entirely. */
+  downloadsNotPermitted?: boolean;
+  /** Edit capability: may delete any listed file. Defaults to "can upload here". */
+  canEditFiles?: boolean;
+  /** Uploaders may always remove their own files. */
+  canDeleteOwnUploads?: boolean;
   currentUserId?: string;
   canComment?: boolean;
   canResolve?: boolean;
@@ -58,6 +64,9 @@ export const ProjectFileUploader = forwardRef<ProjectFileUploaderHandle, Project
       maxFiles = REMOTE_PROJECT_MAX_FILES_PER_PROJECT,
       disabled = false,
       downloadsLocked = false,
+      downloadsNotPermitted = false,
+      canEditFiles,
+      canDeleteOwnUploads = false,
       currentUserId,
       canComment = false,
       canResolve = false,
@@ -233,6 +242,12 @@ export const ProjectFileUploader = forwardRef<ProjectFileUploaderHandle, Project
     }[fileType];
 
     const showThreads = !!currentUserId;
+    const showDownloads = !downloadsNotPermitted;
+    const canDeleteFile = (file: ProjectFile) => {
+      if (canEditFiles ?? !disabled) return true;
+      const uploaderId = typeof file.uploadedBy === 'object' ? file.uploadedBy?._id : file.uploadedBy;
+      return canDeleteOwnUploads && !!currentUserId && uploaderId === currentUserId;
+    };
 
     return (
       <div className={`project-file-uploader project-file-uploader--${fileType}`}>
@@ -245,7 +260,7 @@ export const ProjectFileUploader = forwardRef<ProjectFileUploaderHandle, Project
           </div>
 
           <div className="project-file-uploader__header-actions">
-            {files.length > 1 && (
+            {showDownloads && files.length > 1 && (
               <button
                 type="button"
                 className="project-icon-action project-icon-action--round project-icon-action--download"
@@ -296,7 +311,7 @@ export const ProjectFileUploader = forwardRef<ProjectFileUploaderHandle, Project
           />
         </div>
 
-        {downloadsLocked && files.length > 0 && (
+        {showDownloads && downloadsLocked && files.length > 0 && (
           <div className="project-file-uploader__locked-banner" role="status">
             <Lock size={14} aria-hidden />
             <span>{t('downloadLock.customerBanner')}</span>
@@ -361,17 +376,19 @@ export const ProjectFileUploader = forwardRef<ProjectFileUploaderHandle, Project
                       <span className="project-file-uploader__file-size">{formatFileSize(file.fileSize)}</span>
                     </div>
                     <div className="project-file-uploader__file-actions">
-                      <button
-                        type="button"
-                        className="project-icon-action project-icon-action--round project-icon-action--download"
-                        onClick={() => handleDownloadFile(file)}
-                        disabled={downloadsLocked}
-                        aria-label={downloadsLocked ? t('downloadLock.locked') : t('download')}
-                        title={downloadsLocked ? t('downloadLock.locked') : t('download')}
-                      >
-                        {downloadsLocked ? <Lock aria-hidden /> : <Download aria-hidden />}
-                      </button>
-                      {!disabled ? (
+                      {showDownloads && (
+                        <button
+                          type="button"
+                          className="project-icon-action project-icon-action--round project-icon-action--download"
+                          onClick={() => handleDownloadFile(file)}
+                          disabled={downloadsLocked}
+                          aria-label={downloadsLocked ? t('downloadLock.locked') : t('download')}
+                          title={downloadsLocked ? t('downloadLock.locked') : t('download')}
+                        >
+                          {downloadsLocked ? <Lock aria-hidden /> : <Download aria-hidden />}
+                        </button>
+                      )}
+                      {canDeleteFile(file) ? (
                         <button
                           type="button"
                           className="project-icon-action project-icon-action--round project-icon-action--danger"
@@ -395,7 +412,9 @@ export const ProjectFileUploader = forwardRef<ProjectFileUploaderHandle, Project
                           library="project"
                           containerId={projectId}
                           file={file}
-                          onDownload={downloadsLocked ? undefined : () => handleDownloadFile(file)}
+                          onDownload={
+                            downloadsLocked || !showDownloads ? undefined : () => handleDownloadFile(file)
+                          }
                           showThreadToggle={showThreads}
                           artworkUrl={artworkUrl}
                           contextLabel={contextLabel}

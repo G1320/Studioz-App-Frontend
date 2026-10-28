@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { getWaveform } from '@shared/services';
+import { getSharedFileWaveform, getWaveform } from '@shared/services';
 import { isPlayableAudioExtension } from '@shared/constants/remoteProjectFileLimits';
 import type { WaveformResponse } from 'src/types';
 import type { HiFiAudioLibrary } from './useHiFiAudioEngine';
@@ -22,11 +22,12 @@ export function useWaveform(
   enabled = true
 ) {
   // Studio portfolio files do not expose a waveform endpoint (yet).
-  const supported = library === 'project';
+  const supported = library === 'project' || library === 'share';
 
   const query = useQuery<WaveformResponse>({
     queryKey: waveformQueryKey(library, containerId, fileId),
-    queryFn: () => getWaveform(containerId, fileId),
+    queryFn: () =>
+      library === 'share' ? getSharedFileWaveform(containerId, fileId) : getWaveform(containerId, fileId),
     enabled: enabled && supported && !!containerId && !!fileId && isPlayableAudioExtension(fileName),
     staleTime: Infinity,
     gcTime: 60 * 60 * 1000,

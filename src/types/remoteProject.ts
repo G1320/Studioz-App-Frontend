@@ -139,9 +139,30 @@ export interface WaveformResponse {
 
 export type ProjectSide = 'customer' | 'vendor';
 
+export type ProjectCapability = 'listen' | 'comment' | 'download' | 'upload' | 'edit';
+export type ProjectRole = 'listener' | 'reviewer' | 'listener_download' | 'contributor' | 'editor';
+/** `custom` = individually toggled capabilities; `owner` = primary customer/vendor. */
+export type ProjectRoleOrCustom = ProjectRole | 'custom';
+
+export interface ProjectGrant {
+  role: ProjectRoleOrCustom;
+  capabilities: ProjectCapability[];
+  /** Empty = whole project. */
+  fileIds: string[];
+}
+
+export interface ProjectGrantRequest {
+  role?: ProjectRole;
+  capabilities?: ProjectCapability[];
+  /** Omitted or `null` = whole project. */
+  fileIds?: string[] | null;
+}
+
 export type ProjectCollaboratorStatus = 'active' | 'removed';
 
-export interface ProjectCollaborator {
+export interface ProjectCollaborator extends Partial<ProjectGrant> {
+  expiresAt?: string | null;
+  shareLinkId?: string | null;
   userId:
     | string
     | {
@@ -166,7 +187,7 @@ export interface ProjectCollaborator {
 
 export type ProjectInviteStatus = 'pending' | 'accepted' | 'revoked' | 'expired';
 
-export interface ProjectInvite {
+export interface ProjectInvite extends Partial<ProjectGrant> {
   _id: string;
   projectId?: string | { _id: string; title?: string; status?: string; studioName?: { en?: string; he?: string } };
   email: string;
@@ -182,6 +203,13 @@ export interface ProjectAccess {
   isPrimary: boolean;
   isCollaborator: boolean;
   senderRole: SenderRole;
+  role?: ProjectRoleOrCustom | 'owner';
+  capabilities?: ProjectCapability[];
+  /** Set when the user only sees specific files. */
+  fileScope?: string[] | null;
+  canDownload?: boolean;
+  canUpload?: boolean;
+  canEdit?: boolean;
   canInvite: boolean;
   canPay: boolean;
   canCustomerWorkflow: boolean;
@@ -195,7 +223,13 @@ export interface ProjectAccess {
   canManageDownloadLock?: boolean;
 }
 
-export type SenderRole = 'customer' | 'vendor' | 'customer_collaborator' | 'vendor_collaborator';
+export type SenderRole =
+  | 'customer'
+  | 'vendor'
+  | 'customer_collaborator'
+  | 'vendor_collaborator'
+  | 'customer_guest'
+  | 'vendor_guest';
 
 export interface MessageFileCue {
   _id: string;
@@ -207,8 +241,11 @@ export interface MessageFileCue {
 export interface ProjectMessage {
   _id: string;
   projectId: string;
-  senderId: string | { _id: string; name?: string; imgUrl?: string };
+  /** Missing for guests who commented through a share link. */
+  senderId?: string | { _id: string; name?: string; imgUrl?: string } | null;
   senderRole: SenderRole;
+  guestName?: string;
+  shareLinkId?: string;
 
   message: string;
   attachmentIds?: (string | ProjectFile)[];
@@ -284,6 +321,8 @@ export interface DownloadUrlResponse {
   expiresIn: number;
   /** True when this URL was issued as a restricted stream (downloads locked). */
   locked?: boolean;
+  /** Streams always serve the original uploaded file. */
+  quality?: 'original';
   intent?: 'download' | 'stream';
 }
 
@@ -313,4 +352,107 @@ export interface MessagesResponse {
 export interface CollaboratorsResponse {
   collaborators: ProjectCollaborator[];
   pendingInvites: ProjectInvite[];
+}
+
+export interface ProjectShareLink extends ProjectGrant {
+  _id: string;
+  token: string;
+  side: ProjectSide;
+  label: string | null;
+  expiresAt: string | null;
+  revokedAt: string | null;
+  disabledAt: string | null;
+  hasPassword: boolean;
+  /** Join links only; 1 = single use. */
+  maxJoins: number | null;
+  status: ShareLinkStatus;
+  viewCount: number;
+  joinCount: number;
+  lastAccessedAt: string | null;
+  createdAt: string;
+  requiresLogin: boolean;
+}
+
+export type ShareLinkStatus = 'active' | 'paused' | 'expired' | 'used' | 'revoked';
+
+/** For settings, `null` clears the value (never expires / no password / unlimited joins). */
+export interface ShareLinkSettingsRequest {
+  label?: string | null;
+  expiresAt?: string | null;
+  password?: string | null;
+  maxJoins?: number | null;
+}
+
+export interface CreateShareLinkRequest extends ProjectGrantRequest, ShareLinkSettingsRequest {}
+
+export interface UpdateShareLinkRequest extends ProjectGrantRequest, ShareLinkSettingsRequest {
+  active?: boolean;
+}
+
+export interface SharedProjectFile {
+  _id: string;
+  fileName: string;
+  fileSize: number;
+  mimeType: string;
+  type: ProjectFileType;
+  revisionNumber?: number;
+  createdAt?: string;
+  /** The link allows downloading this file right now (download capability and not locked). */
+  downloadable: boolean;
+}
+
+export type ProjectAccessRequestStatus = 'pending' | 'approved' | 'denied';
+
+/** The requester's own view: no project details, only where their request stands. */
+export interface MyProjectAccessRequest {
+  _id: string;
+  status: ProjectAccessRequestStatus;
+  createdAt: string;
+  decidedAt: string | null;
+  canRequestAgainAt: string | null;
+}
+
+export interface MyAccessRequestResponse {
+  hasAccess: boolean;
+  request: MyProjectAccessRequest | null;
+}
+
+/** Owner's view of a pending request. */
+export interface ProjectAccessRequestItem {
+  _id: string;
+  userId: string | { _id: string; name?: string; email?: string; picture?: string; avatar?: string };
+  message: string | null;
+  status: ProjectAccessRequestStatus;
+  createdAt: string;
+}
+
+export interface SharedProjectLocked {
+  passwordRequired: true;
+  shareLink: { label: string | null };
+}
+
+export type SharedProjectResult = SharedProjectResponse | SharedProjectLocked;
+
+export interface SharedProjectResponse {
+  passwordRequired: false;
+  shareLink: {
+    role: ProjectRoleOrCustom;
+    capabilities: ProjectCapability[];
+    side: ProjectSide;
+    label: string | null;
+    expiresAt: string | null;
+    requiresLogin: boolean;
+    canDownload: boolean;
+    canComment: boolean;
+    /** Some files are held back by the deliverable download lock. */
+    downloadsLocked: boolean;
+  };
+  project: {
+    _id: string;
+    title: string;
+    status: RemoteProjectStatus;
+    studioName?: { en?: string; he?: string };
+    artworkUrl?: string;
+  };
+  files: SharedProjectFile[];
 }

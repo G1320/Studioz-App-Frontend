@@ -2,7 +2,14 @@ import { useState, useEffect, useRef, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { MessageSquare, PanelRightClose, PanelRightOpen } from 'lucide-react';
 import { useProjectMessages, useSendMessageMutation, useMarkMessagesReadMutation } from '@shared/hooks';
-import { formatPlaybackTime, isTrackComment, useAudioCueComment } from '@shared/audio';
+import {
+  formatPlaybackTime,
+  getMessageSenderId,
+  getMessageSenderName,
+  isGuestMessage,
+  isTrackComment,
+  useAudioCueComment
+} from '@shared/audio';
 import { ProjectMessage, SenderRole } from 'src/types/index';
 import './styles/_project-chat.scss';
 
@@ -14,10 +21,6 @@ interface ProjectChatProps {
   collapsed?: boolean;
   onToggleCollapsed?: () => void;
 }
-
-const getSenderId = (sender: string | { _id: string }): string => {
-  return typeof sender === 'string' ? sender : sender._id;
-};
 
 export const ProjectChat: React.FC<ProjectChatProps> = ({
   projectId,
@@ -37,7 +40,7 @@ export const ProjectChat: React.FC<ProjectChatProps> = ({
   const messages = useMemo(() => allMessages.filter((m) => !isTrackComment(m)), [allMessages]);
   const trackCommentCount = allMessages.length - messages.length;
   const unreadCount = messages.filter(
-    (message) => !message.readAt && getSenderId(message.senderId) !== currentUserId
+    (message) => !message.readAt && getMessageSenderId(message) !== currentUserId
   ).length;
   const sendMessageMutation = useSendMessageMutation();
   const { mutate: markMessagesRead } = useMarkMessagesReadMutation();
@@ -72,7 +75,7 @@ export const ProjectChat: React.FC<ProjectChatProps> = ({
   useEffect(() => {
     if (!collapsed && messages.length > 0) {
       const unreadMessages = messages.filter(
-        (msg: ProjectMessage) => !msg.readAt && getSenderId(msg.senderId) !== currentUserId
+        (msg: ProjectMessage) => !msg.readAt && getMessageSenderId(msg) !== currentUserId
       );
       if (unreadMessages.length > 0) {
         markMessagesRead({
@@ -84,9 +87,8 @@ export const ProjectChat: React.FC<ProjectChatProps> = ({
   }, [collapsed, currentUserId, markMessagesRead, messages, projectId]);
 
   const getSenderName = (msg: ProjectMessage): string => {
-    if (typeof msg.senderId === 'object' && msg.senderId.name) {
-      return msg.senderId.name;
-    }
+    const name = getMessageSenderName(msg);
+    if (name) return isGuestMessage(msg) ? t('trackComments.guestName', { name }) : name;
     return msg.senderRole?.startsWith('customer') ? t('customer') : t('vendor');
   };
 
@@ -119,7 +121,7 @@ export const ProjectChat: React.FC<ProjectChatProps> = ({
   };
 
   const isOwnMessage = (msg: ProjectMessage): boolean => {
-    return getSenderId(msg.senderId) === currentUserId;
+    return getMessageSenderId(msg) === currentUserId;
   };
 
   return (

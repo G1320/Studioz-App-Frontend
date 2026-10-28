@@ -1,7 +1,13 @@
 import { type CSSProperties, type FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { formatPlaybackTime } from '@shared/audio/formatPlaybackTime';
-import { getMessageFileId, getParentId, isTimedComment } from '@shared/audio/messageCue';
+import {
+  getMessageFileId,
+  getMessageSenderId,
+  getMessageSenderName,
+  getParentId,
+  isTimedComment
+} from '@shared/audio/messageCue';
 import { useAudioCueComment } from '@shared/audio/AudioCueCommentContext';
 import type { ProjectMessage } from 'src/types';
 
@@ -13,17 +19,6 @@ interface ScrubberCueMarkersProps {
   seekOnClick?: boolean;
   /** Opens or seeks the owning track to the cue time. */
   onSeekToTime?: (offsetSeconds: number) => void;
-}
-
-function senderIdOf(msg: ProjectMessage): string {
-  return typeof msg.senderId === 'string' ? msg.senderId : msg.senderId._id;
-}
-
-function senderNameOf(msg: ProjectMessage, fallback: string): string {
-  if (typeof msg.senderId === 'object' && msg.senderId.name?.trim()) {
-    return msg.senderId.name.trim();
-  }
-  return fallback;
 }
 
 /** First grapheme of the display name (supports Hebrew / emoji). */
@@ -71,13 +66,10 @@ export const ScrubberCueMarkers: FC<ScrubberCueMarkersProps> = ({
         const timeLabel = formatPlaybackTime(offset);
         const pct = Math.max(0, Math.min(100, (offset / duration) * 100));
         const resolved = Boolean(msg.resolvedAt);
-        const roleFallback =
-          msg.senderRole === 'customer' || msg.senderRole === 'customer_collaborator'
-            ? t('customer')
-            : t('vendor');
-        const name = senderNameOf(msg, roleFallback);
+        const roleFallback = msg.senderRole.startsWith('customer') ? t('customer') : t('vendor');
+        const name = getMessageSenderName(msg) ?? roleFallback;
         const initial = senderInitial(name);
-        const hue = senderHue(senderIdOf(msg));
+        const hue = senderHue(getMessageSenderId(msg));
 
         return (
           <button

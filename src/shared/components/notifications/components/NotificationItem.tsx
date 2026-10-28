@@ -164,6 +164,10 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({
         return <NotificationIcon style={glow('#ffd166', '255,209,102')} />;
       case 'project_comment_reply':
         return <EditIcon style={glow('#a78bfa', '167,139,250')} />;
+      case 'project_access_request':
+        return <NotificationIcon style={glow('#f59e0b', '245,158,11')} />;
+      case 'project_access_granted':
+        return <NotificationIcon style={glow('#22c55e', '34,197,94')} />;
       case 'availability_alert':
         return <NotificationIcon style={glow('#f59e0b', '245,158,11')} />;
 
@@ -221,6 +225,19 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({
           t('notifications.fallbacks.remoteProjectTitle', { defaultValue: 'Untitled project' }),
         defaultValue: notification.message
       });
+    }
+
+    if (notification.type === 'project_access_request' || notification.type === 'project_access_granted') {
+      const projectTitle =
+        notification.data?.projectTitle ||
+        t('notifications.fallbacks.remoteProjectTitle', { defaultValue: 'Untitled project' });
+      return notification.type === 'project_access_request'
+        ? t('notifications.messages.projectAccessRequest', {
+            requesterName: notification.data?.requesterName || '',
+            projectTitle,
+            defaultValue: notification.message
+          })
+        : t('notifications.messages.projectAccessGranted', { projectTitle, defaultValue: notification.message });
     }
 
     if (

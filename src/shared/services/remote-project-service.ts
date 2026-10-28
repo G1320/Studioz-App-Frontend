@@ -12,7 +12,12 @@ import {
   DownloadLockResponse,
   AudioMetaResponse,
   MessagesResponse,
-  WaveformResponse
+  WaveformResponse,
+  ProjectGrantRequest,
+  ProjectShareLink,
+  CreateShareLinkRequest,
+  UpdateShareLinkRequest,
+  SharedProjectResult
 } from 'src/types';
 
 const endpoint = '/remote-projects';
@@ -424,9 +429,18 @@ export const markMessagesAsRead = async (
 
 export const inviteCollaborator = async (
   projectId: string,
-  email: string
+  email: string,
+  grant?: ProjectGrantRequest
 ): Promise<{ invite: import('src/types').ProjectInvite }> => {
-  return httpService.post(`${endpoint}/${projectId}/collaborators/invite`, { email });
+  return httpService.post(`${endpoint}/${projectId}/collaborators/invite`, { email, ...grant });
+};
+
+export const updateCollaborator = async (
+  projectId: string,
+  userId: string,
+  grant: ProjectGrantRequest & { expiresAt?: string | null }
+): Promise<{ collaborator: import('src/types').ProjectCollaborator }> => {
+  return httpService.patch(`${endpoint}/${projectId}/collaborators/${userId}`, grant);
 };
 
 export const getCollaborators = async (projectId: string): Promise<import('src/types').CollaboratorsResponse> => {
@@ -453,6 +467,138 @@ export const acceptInviteByToken = async (token: string): Promise<{ projectId: s
 
 export const getPendingInvites = async () => {
   return httpService.get(`${endpoint}/invites/pending`);
+};
+
+// ============================================================
+// SHARE LINKS
+// ============================================================
+
+export const getShareLinks = async (projectId: string): Promise<{ shareLinks: ProjectShareLink[] }> => {
+  return httpService.get(`${endpoint}/${projectId}/share-links`);
+};
+
+export const createShareLink = async (
+  projectId: string,
+  data: CreateShareLinkRequest
+): Promise<{ shareLink: ProjectShareLink }> => {
+  return httpService.post(`${endpoint}/${projectId}/share-links`, data);
+};
+
+export const updateShareLink = async (
+  projectId: string,
+  linkId: string,
+  data: UpdateShareLinkRequest
+): Promise<{ shareLink: ProjectShareLink }> => {
+  return httpService.patch(`${endpoint}/${projectId}/share-links/${linkId}`, data);
+};
+
+export const revokeShareLink = async (
+  projectId: string,
+  linkId: string
+): Promise<{ revoked: boolean; removedCollaborators: number }> => {
+  return httpService.post(`${endpoint}/${projectId}/share-links/${linkId}/revoke`);
+};
+
+// Access keys for password-protected links, kept for the browser session.
+const SHARE_ACCESS_STORAGE_PREFIX = 'shareAccess:';
+
+function shareAccessKey(token: string): string | undefined {
+  try {
+    return sessionStorage.getItem(SHARE_ACCESS_STORAGE_PREFIX + token) ?? undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+function shareParams(token: string): { access: string } | null {
+  const access = shareAccessKey(token);
+  return access ? { access } : null;
+}
+
+/** Public: works without login for any usable link; password-protected links report `passwordRequired`. */
+export const getSharedProject = async (token: string): Promise<SharedProjectResult> => {
+  return httpService.get(`${endpoint}/share/${token}`, shareParams(token));
+};
+
+export const unlockSharedProject = async (token: string, password: string): Promise<void> => {
+  const { accessKey } = await httpService.post<{ accessKey: string | null }>(`${endpoint}/share/${token}/unlock`, {
+    password
+  });
+  if (accessKey) {
+    try {
+      sessionStorage.setItem(SHARE_ACCESS_STORAGE_PREFIX + token, accessKey);
+    } catch {
+      // Private mode without storage: the page will ask again on reload.
+    }
+  }
+};
+
+/** Public: original-quality stream URL for a file reachable through the link. */
+export const getSharedFileStreamUrl = async (token: string, fileId: string): Promise<DownloadUrlResponse> => {
+  return httpService.get(`${endpoint}/share/${token}/files/${fileId}/stream`, shareParams(token));
+};
+
+/** Public: original file download, when the link allows it and the lock is open. */
+export const getSharedFileDownloadUrl = async (token: string, fileId: string): Promise<DownloadUrlResponse> => {
+  return httpService.get(`${endpoint}/share/${token}/files/${fileId}/download`, shareParams(token));
+};
+
+export const getSharedFileWaveform = async (token: string, fileId: string): Promise<WaveformResponse> => {
+  return httpService.get(`${endpoint}/share/${token}/files/${fileId}/waveform`, shareParams(token));
+};
+
+export const getSharedFileAudioMeta = async (token: string, fileId: string): Promise<AudioMetaResponse> => {
+  return httpService.get(`${endpoint}/share/${token}/files/${fileId}/audio-meta`, shareParams(token));
+};
+
+export const getSharedMessages = async (token: string): Promise<{ messages: ProjectMessage[] }> => {
+  return httpService.get(`${endpoint}/share/${token}/messages`, shareParams(token));
+};
+
+export const sendSharedMessage = async (
+  token: string,
+  data: { guestName: string; message: string; fileId?: string; offsetSeconds?: number; parentId?: string }
+): Promise<ProjectMessage> => {
+  return httpService.post(`${endpoint}/share/${token}/messages`, { ...data, ...shareParams(token) });
+};
+
+export const joinSharedProject = async (token: string): Promise<{ projectId: string; alreadyMember: boolean }> => {
+  return httpService.post(`${endpoint}/share/${token}/join`, shareParams(token));
+};
+
+// ============================================================
+// ACCESS REQUESTS
+// ============================================================
+
+export const getMyAccessRequest = async (
+  projectId: string
+): Promise<import('src/types').MyAccessRequestResponse> => {
+  return httpService.get(`${endpoint}/${projectId}/access-requests/me`);
+};
+
+export const requestProjectAccess = async (
+  projectId: string,
+  message?: string
+): Promise<{ request: import('src/types').MyProjectAccessRequest }> => {
+  return httpService.post(`${endpoint}/${projectId}/access-requests`, message ? { message } : {});
+};
+
+export const getAccessRequests = async (
+  projectId: string
+): Promise<{ accessRequests: import('src/types').ProjectAccessRequestItem[] }> => {
+  return httpService.get(`${endpoint}/${projectId}/access-requests`);
+};
+
+export const approveAccessRequest = async (
+  projectId: string,
+  requestId: string,
+  grant: import('src/types').ProjectGrantRequest
+): Promise<{ approved: boolean }> => {
+  return httpService.post(`${endpoint}/${projectId}/access-requests/${requestId}/approve`, grant);
+};
+
+export const denyAccessRequest = async (projectId: string, requestId: string): Promise<{ denied: boolean }> => {
+  return httpService.post(`${endpoint}/${projectId}/access-requests/${requestId}/deny`);
 };
 
 // ============================================================

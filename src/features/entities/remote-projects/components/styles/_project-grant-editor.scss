@@ -1,0 +1,141 @@
+.project-grant-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  text-align: start;
+
+  fieldset {
+    margin: 0;
+    padding: 0;
+    border: none;
+    min-width: 0;
+  }
+
+  &__legend {
+    margin-bottom: 0.4rem;
+    padding: 0;
+    font-size: 0.6875rem;
+    font-weight: 650;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+  }
+
+  &__roles {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.4rem;
+
+    @media (min-width: 560px) {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  &__role {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding: 0.55rem 0.65rem;
+    border: 1px solid var(--border-primary);
+    border-radius: 0.5rem;
+    background: var(--bg-surface, var(--bg-secondary));
+    cursor: pointer;
+    transition: border-color 0.15s ease, background 0.15s ease;
+
+    input {
+      margin-top: 0.2rem;
+      accent-color: var(--color-brand);
+    }
+
+    &--active {
+      border-color: var(--color-brand);
+      background: color-mix(in srgb, var(--color-brand) 8%, var(--bg-surface, var(--bg-secondary)));
+    }
+  }
+
+  &__role-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    min-width: 0;
+  }
+
+  &__role-name,
+  &__capability-name {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  &__role-desc,
+  &__capability-desc {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    line-height: 1.35;
+  }
+
+  &__custom-note {
+    grid-column: 1 / -1;
+    margin: 0;
+    font-size: 0.75rem;
+    color: var(--color-brand);
+  }
+
+  &__advanced-toggle {
+    align-self: flex-start;
+    padding: 0;
+    border: none;
+    background: none;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-brand);
+    cursor: pointer;
+
+    &:hover,
+    &:focus-visible {
+      text-decoration: underline;
+      outline: none;
+    }
+  }
+
+  &__capabilities,
+  &__scope {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  &__capability {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    cursor: pointer;
+
+    input {
+      margin-top: 0.15rem;
+      accent-color: var(--color-brand);
+    }
+  }
+
+  &__files {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    max-height: 10rem;
+    margin: 0.2rem 0 0;
+    padding: 0.5rem 0.65rem;
+    list-style: none;
+    overflow-y: auto;
+    border: 1px solid var(--border-primary);
+    border-radius: 0.5rem;
+  }
+
+  &__file-name {
+    overflow: hidden;
+    font-size: 0.8125rem;
+    color: var(--text-primary);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}

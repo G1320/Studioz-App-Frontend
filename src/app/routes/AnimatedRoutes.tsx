@@ -71,6 +71,7 @@ const ProjectDetailPage = lazyWithRetry(() => import('@features/entities/remote-
 const ProjectInviteAcceptPage = lazyWithRetry(
   () => import('@features/entities/remote-projects/pages/ProjectInviteAcceptPage')
 );
+const ProjectSharePage = lazyWithRetry(() => import('@features/entities/remote-projects/pages/ProjectSharePage'));
 
 interface AnimatedRoutesProps {
   studios: Studio[];
@@ -426,6 +427,14 @@ const AnimatedRoutes: React.FC<AnimatedRoutesProps> = ({ studios, items, onlineC
             element={
               <AnimatedRoute>
                 <ProjectInviteAcceptPage />
+              </AnimatedRoute>
+            }
+          />
+          <Route
+            path="/:lang?/projects/share/:token"
+            element={
+              <AnimatedRoute>
+                <ProjectSharePage />
               </AnimatedRoute>
             }
           />

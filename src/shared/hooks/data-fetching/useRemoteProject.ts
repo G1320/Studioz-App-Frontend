@@ -13,6 +13,11 @@ export const useRemoteProject = (projectId: string) => {
     initialData: () =>
       queryClient.getQueryData<ProjectDetailResponse>(['remoteProject', projectId]),
     enabled: !!projectId,
+    retry: (failureCount, err) => {
+      const status = (err as { response?: { status?: number } })?.response?.status;
+      if (status === 403 || status === 404) return false;
+      return failureCount < 3;
+    },
   });
 
   return {

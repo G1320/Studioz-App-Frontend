@@ -1,5 +1,19 @@
 @use './project-icon-actions';
 
+.project-collaborators__role-select {
+  max-width: 9.5rem;
+  padding: 0.3rem 0.45rem;
+  border: 1px solid var(--border-primary);
+  border-radius: 0.4rem;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-size: 0.75rem;
+}
+
+.project-collaborators__invite .project-grant-editor {
+  margin-top: 0.75rem;
+}
+
 .project-collaborators {
   text-align: start;
 
@@ -330,5 +344,52 @@
     color: var(--color-error, #c0392b);
     margin: 0.5rem 0 0;
     font-size: 0.8125rem;
+  }
+
+  &__add {
+    position: relative;
+  }
+
+  &__request-badge {
+    position: absolute;
+    top: -0.35rem;
+    inset-inline-end: -0.35rem;
+    min-width: 1rem;
+    height: 1rem;
+    padding: 0 0.25rem;
+    box-sizing: border-box;
+    border-radius: 9999px;
+    background: var(--color-brand);
+    color: #fff;
+    font-size: 0.625rem;
+    font-weight: 700;
+    line-height: 1rem;
+    text-align: center;
+  }
+
+  &__requests {
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border-primary);
+  }
+
+  &__requests-title {
+    margin: 0 0 0.25rem;
+    font-size: 0.875rem;
+    font-weight: 650;
+    color: var(--text-primary);
+  }
+
+  &__item--request {
+    flex-wrap: wrap;
+    row-gap: 0.5rem;
+  }
+
+  &__request-message {
+    margin: 0.35rem 0 0;
+    font-size: 0.8125rem;
+    color: var(--text-secondary);
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
   }
 }

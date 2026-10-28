@@ -1,6 +1,9 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { resolvePlaybackCapability } from '../audioCapability';
-import { HIFI_WASM_DECODE_MAX_BYTES } from '@shared/constants/remoteProjectFileLimits';
+import { canDecodeInTab, resolvePlaybackCapability } from '../audioCapability';
+import {
+  HIFI_PCM_REMUX_MAX_BYTES,
+  HIFI_WASM_DECODE_MAX_BYTES
+} from '@shared/constants/remoteProjectFileLimits';
 import { aiffArrayBufferToWavBlob } from '../aiffToWav';
 import { isPlayableAudioExtension } from '@shared/constants/remoteProjectFileLimits';
 
@@ -53,6 +56,25 @@ describe('resolvePlaybackCapability', () => {
     expect(
       resolvePlaybackCapability('big.flac', 'audio/flac', HIFI_WASM_DECODE_MAX_BYTES + 1).strategy
     ).toBe('download_only');
+  });
+
+  it('keeps large uncompressed AIFF playable via bit-exact remux up to the upload limit', () => {
+    mockCanPlayType(() => '');
+
+    expect(
+      resolvePlaybackCapability('master.aiff', 'audio/aiff', HIFI_WASM_DECODE_MAX_BYTES + 1).strategy
+    ).toBe('wasm');
+    expect(
+      resolvePlaybackCapability('huge.aiff', 'audio/aiff', HIFI_PCM_REMUX_MAX_BYTES + 1).strategy
+    ).toBe('download_only');
+  });
+
+  it('allows the in-tab decoder as a runtime fallback for lossless formats only', () => {
+    expect(canDecodeInTab('float.wav', 1024)).toBe(true);
+    expect(canDecodeInTab('mix.flac', 1024)).toBe(true);
+    expect(canDecodeInTab('bounce.aif', HIFI_WASM_DECODE_MAX_BYTES + 1)).toBe(true);
+    expect(canDecodeInTab('mix.flac', HIFI_WASM_DECODE_MAX_BYTES + 1)).toBe(false);
+    expect(canDecodeInTab('ref.mp3', 1024)).toBe(false);
   });
 
   it('marks zip as unsupported', () => {

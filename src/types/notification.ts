@@ -25,6 +25,8 @@ export type NotificationType =
   | 'project_chat_message'
   | 'project_track_comment'
   | 'project_comment_reply'
+  | 'project_access_request'
+  | 'project_access_granted'
   | 'availability_alert'
   // Legacy
   | 'system_alert';
@@ -71,6 +73,8 @@ const TYPE_TO_CATEGORY: Record<NotificationType, NotificationCategory> = {
   project_chat_message: 'projects',
   project_track_comment: 'projects',
   project_comment_reply: 'projects',
+  project_access_request: 'projects',
+  project_access_granted: 'projects',
   availability_alert: 'activity',
   system_alert: 'system'
 };

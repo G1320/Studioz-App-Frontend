@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { getDownloadUrl, getStudioFileDownloadUrl } from '@shared/services';
+import { getDownloadUrl, getSharedFileStreamUrl, getStudioFileDownloadUrl } from '@shared/services';
 import type { HiFiAudioLibrary } from './useHiFiAudioEngine';
 
 /**
@@ -17,7 +17,9 @@ export function useRemoteAudioUrl(
     queryFn: () =>
       library === 'studio'
         ? getStudioFileDownloadUrl(containerId, fileId)
-        : getDownloadUrl(containerId, fileId),
+        : library === 'share'
+          ? getSharedFileStreamUrl(containerId, fileId)
+          : getDownloadUrl(containerId, fileId, 'stream'),
     enabled: enabled && !!containerId && !!fileId,
     staleTime: 12 * 60 * 60 * 1000,
     gcTime: 24 * 60 * 60 * 1000

@@ -29,6 +29,12 @@ export interface FeatureFlags {
    * When false (default), English-only: hide lang switcher and HE form fields.
    */
   hebrewLocale: boolean;
+  /**
+   * Watermarked/lossy previews for locked deliverables. Not implemented; must stay off so
+   * every stream plays the original lossless file (access is managed via download permissions).
+   * Mirrors backend WATERMARKED_PREVIEWS_ENABLED.
+   */
+  watermarkedPreviews: boolean;
 }
 
 export const featureFlags: FeatureFlags = {
@@ -54,7 +60,8 @@ export const featureFlags: FeatureFlags = {
   mobileFooterNavigation: false,
   subscriptionsPage: false,
   progressivePlatformFees: false,
-  hebrewLocale: false
+  hebrewLocale: false,
+  watermarkedPreviews: false
 };
 
 /**

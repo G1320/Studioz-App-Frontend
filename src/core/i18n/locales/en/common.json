@@ -202,7 +202,9 @@
       "newRemoteProject": "{{customerName}} submitted a project request for {{projectTitle}}",
       "projectChatMessage": "{{senderName}}: {{message}}",
       "projectTrackComment": "{{senderName}} commented on {{fileName}}: {{message}}",
-      "projectCommentReply": "{{senderName}} replied on {{fileName}}: {{message}}"
+      "projectCommentReply": "{{senderName}} replied on {{fileName}}: {{message}}",
+      "projectAccessRequest": "{{requesterName}} asked for access to {{projectTitle}}",
+      "projectAccessGranted": "You now have access to {{projectTitle}}"
     },
     "page": {
       "title": "Notifications",
@@ -264,6 +266,8 @@
       "project_chat_message": "New Project Message",
       "project_track_comment": "New Track Comment",
       "project_comment_reply": "New Comment Reply",
+      "project_access_request": "Access Request",
+      "project_access_granted": "Access Granted",
       "availability_alert": "Availability Alert",
       "system_alert": "System Alert"
     }

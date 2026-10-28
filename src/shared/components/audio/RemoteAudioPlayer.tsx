@@ -8,10 +8,12 @@ import {
   useAudioMeta,
   useAudioCueComment,
   useHiFiAudioEngine,
-  useWaveform
+  useWaveform,
+  type HiFiAudioLibrary
 } from '@shared/audio';
 import { formatPlaybackTime } from '@shared/audio/formatPlaybackTime';
 import { useProjectMessages } from '@shared/hooks';
+import type { ProjectMessage } from 'src/types';
 import { ScrubberCueMarkers } from './ScrubberCueMarkers';
 import { WaveformScrubber } from './WaveformScrubber';
 import './styles/_remote-audio-player.scss';
@@ -24,7 +26,7 @@ interface PlayableRemoteFile {
 }
 
 interface RemoteAudioPlayerProps {
-  library: 'project' | 'studio';
+  library: HiFiAudioLibrary;
   containerId: string;
   file: PlayableRemoteFile;
   onDownload?: () => void;
@@ -40,6 +42,10 @@ interface RemoteAudioPlayerProps {
   artworkUrl?: string;
   /** Secondary label in the sticky player (e.g. project title). */
   contextLabel?: string;
+  /** Cue markers from a caller-owned comment source (e.g. a share link) instead of the project chat. */
+  cueMessages?: ProjectMessage[];
+  /** Shows "Comment at <time>" for callers that own their own composer. */
+  onCommentAt?: (offsetSeconds: number) => void;
 }
 
 function formatFidelity(
@@ -71,7 +77,9 @@ export const RemoteAudioPlayer: FC<RemoteAudioPlayerProps> = ({
   layout = 'full',
   showThreadToggle = library === 'project',
   artworkUrl,
-  contextLabel
+  contextLabel,
+  cueMessages,
+  onCommentAt
 }) => {
   const { t } = useTranslation('remoteProjects');
   const rootRef = useRef<HTMLDivElement>(null);
@@ -103,7 +111,11 @@ export const RemoteAudioPlayer: FC<RemoteAudioPlayerProps> = ({
 
   const { data: meta } = useAudioMeta(library, containerId, file._id, file.fileName, isSelected);
   const waveform = useWaveform(library, containerId, file._id, file.fileName, layout === 'full');
-  const { messages } = useProjectMessages({ projectId: enableCues ? containerId : '' });
+  const { messages: projectMessages } = useProjectMessages({
+    projectId: enableCues && !cueMessages ? containerId : ''
+  });
+  const messages = cueMessages ?? projectMessages;
+  const showMarkers = enableCues || !!cueMessages;
   const cueComment = useAudioCueComment();
   const [lastMeasuredDuration, setLastMeasuredDuration] = useState(0);
 
@@ -297,7 +309,7 @@ export const RemoteAudioPlayer: FC<RemoteAudioPlayerProps> = ({
           ariaLabel={t('audioPlayer.seek')}
           height={32}
         >
-          {enableCues && (
+          {showMarkers && (
             <ScrubberCueMarkers
               fileId={file._id}
               duration={scrubberMax}
@@ -385,6 +397,17 @@ export const RemoteAudioPlayer: FC<RemoteAudioPlayerProps> = ({
                   offsetSeconds: currentTime
                 })
               }
+              aria-label={t('audioPlayer.commentAtTime', { time: formatPlaybackTime(currentTime) })}
+            >
+              <MessageSquarePlus size={14} />
+              {t('audioPlayer.commentAt', { time: formatPlaybackTime(currentTime) })}
+            </button>
+          )}
+          {onCommentAt && isSelected && (
+            <button
+              type="button"
+              className="remote-audio-player__comment"
+              onClick={() => onCommentAt(currentTime)}
               aria-label={t('audioPlayer.commentAtTime', { time: formatPlaybackTime(currentTime) })}
             >
               <MessageSquarePlus size={14} />

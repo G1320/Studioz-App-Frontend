@@ -25,6 +25,7 @@ import { ProjectFileUploader, type ProjectFileUploaderHandle } from '../componen
 import { ProjectChat } from '../components/ProjectChat';
 import { ProjectCollaborators } from '../components/ProjectCollaborators';
 import { DownloadLockControl } from '../components/DownloadLockControl';
+import { ProjectAccessDenied } from '../components/ProjectAccessDenied';
 import { RemoteProject, ProjectFileType } from 'src/types/index';
 import './styles/_project-detail-page.scss';
 
@@ -71,7 +72,10 @@ export const ProjectDetailPage: React.FC = () => {
     window.localStorage.setItem(`project-chat-collapsed:${layout}`, String(isChatCollapsed));
   }, [isChatCollapsed]);
 
-  const { project, fileCounts, access, deliverablesLocked, isLoading, refetch } = useRemoteProject(projectId || '');
+  const { project, fileCounts, access, deliverablesLocked, isLoading, error, refetch } = useRemoteProject(
+    projectId || ''
+  );
+  const loadStatus = (error as { response?: { status?: number } } | null)?.response?.status;
 
   const socket = useSocket();
   const queryClient = useQueryClient();
@@ -88,6 +92,7 @@ export const ProjectDetailPage: React.FC = () => {
         refetchProject();
         void queryClient.invalidateQueries({ queryKey: ['remoteProjects'] });
         void queryClient.invalidateQueries({ queryKey: ['projectCollaborators', projectId] });
+        void queryClient.invalidateQueries({ queryKey: ['projectAccessRequests', projectId] });
       }
     };
     const onFilesUpdate = (payload: { projectId?: string }) => {
@@ -217,10 +222,14 @@ export const ProjectDetailPage: React.FC = () => {
     return <div className="project-detail__loading">{t('common.loading')}</div>;
   }
 
+  if (!project && loadStatus === 403) {
+    return <ProjectAccessDenied projectId={projectId} onGranted={refetchProject} />;
+  }
+
   if (!project) {
     return (
       <div className="project-detail__error">
-        {t('loadError')}
+        {loadStatus === 404 ? t('projectNotFound') : t('loadError')}
         <Button onClick={() => navigate(-1)} className="button--secondary">
           {t('common.goBack')}
         </Button>
@@ -245,6 +254,10 @@ export const ProjectDetailPage: React.FC = () => {
   const canPay = access?.canPay ?? isPrimaryCustomer;
   const canUpdateMetadata = access?.canUpdateMetadata ?? isPrimaryVendor;
   const canUpdateArtwork = access?.canUpdateArtwork ?? Boolean(user);
+  const canChat = access?.canChat ?? true;
+  const canDownload = access?.canDownload ?? true;
+  const canUpload = access?.canUpload ?? (isPrimaryCustomer || isPrimaryVendor);
+  const canEditFiles = access?.canEdit ?? (isPrimaryCustomer || isPrimaryVendor);
   // Primary customer/vendor only. Collaborators cannot invite (API returns 403).
   const canInvite =
     access?.isCollaborator !== true &&
@@ -354,8 +367,12 @@ export const ProjectDetailPage: React.FC = () => {
   const canRequestRevision =
     canCustomerWorkflow && project.status === 'delivered' && (hasFreeRevisions || (isPaidRevision && canPay));
   const canComplete = canPay && project.status === 'delivered';
-  const canUploadSource = canCustomerWorkflow && ['requested', 'accepted', 'in_progress'].includes(project.status);
-  const canUploadDeliverable = canVendorWorkflow && ['in_progress', 'revision_requested'].includes(project.status);
+  const isCustomerSide = access ? access.side === 'customer' : isPrimaryCustomer;
+  const isVendorSide = access ? access.side === 'vendor' : isPrimaryVendor;
+  const canUploadSource =
+    canUpload && isCustomerSide && ['requested', 'accepted', 'in_progress'].includes(project.status);
+  const canUploadDeliverable =
+    canUpload && isVendorSide && ['in_progress', 'revision_requested'].includes(project.status);
   const canUploadRevision = canUploadDeliverable && project.revisionsUsed > 0;
   uploadEnabledRef.current = {
     source: canUploadSource,
@@ -392,14 +409,19 @@ export const ProjectDetailPage: React.FC = () => {
   const canEdit = canUpdateMetadata && !['completed', 'cancelled', 'declined'].includes(project.status);
   const isClosed = ['completed', 'cancelled', 'declined'].includes(project.status);
   // Customer-side users lose deliverable downloads while the vendor's lock is active.
-  const deliverableDownloadsLocked = access?.canDownloadDeliverables === false;
+  const deliverableDownloadsLocked = canDownload && access?.canDownloadDeliverables === false;
   const canManageDownloadLock =
     access?.canManageDownloadLock === true || access?.canUpdateMetadata === true || isPrimaryVendor;
   const isCustomer = access?.side === 'customer' || isPrimaryCustomer;
-  // Track comments: anyone with access can comment while the project is open;
-  // customer-side users decide when their feedback has been addressed.
-  const canComment = !isClosed;
-  const canResolve = isCustomer && !isVendor && !isClosed;
+  // Track comments need the comment capability while the project is open;
+  // customer-side commenters decide when their feedback has been addressed.
+  const canComment = canChat && !isClosed;
+  const canResolve = canChat && isCustomer && !isVendor && !isClosed;
+  const fileActionProps = {
+    downloadsNotPermitted: !canDownload,
+    canEditFiles: canEditFiles && !isClosed,
+    canDeleteOwnUploads: canUpload && !isClosed
+  };
 
   const getItemName = (): string => {
     if (project.itemName?.en) return project.itemName.en;
@@ -611,6 +633,7 @@ export const ProjectDetailPage: React.FC = () => {
                   maxFileSize={typeof project.itemId === 'object' ? project.itemId.maxFileSize : undefined}
                   maxFiles={typeof project.itemId === 'object' ? project.itemId.maxFilesPerProject : undefined}
                   acceptedTypes={typeof project.itemId === 'object' ? project.itemId.acceptedFileTypes : undefined}
+                  {...fileActionProps}
                   currentUserId={user?._id}
                   canComment={canComment}
                   canResolve={canResolve}
@@ -624,7 +647,7 @@ export const ProjectDetailPage: React.FC = () => {
                   projectId={projectId}
                   currentUserId={user._id}
                   currentUserRole={userRole}
-                  disabled={['completed', 'cancelled', 'declined'].includes(project.status)}
+                  disabled={!canChat || ['completed', 'cancelled', 'declined'].includes(project.status)}
                   collapsed={isChatCollapsed}
                   onToggleCollapsed={() => setIsChatCollapsed((current) => !current)}
                 />
@@ -643,6 +666,7 @@ export const ProjectDetailPage: React.FC = () => {
                   fileType="deliverable"
                   disabled={!canUploadDeliverable}
                   downloadsLocked={deliverableDownloadsLocked}
+                  {...fileActionProps}
                   currentUserId={user?._id}
                   canComment={canComment}
                   canResolve={canResolve}
@@ -661,6 +685,7 @@ export const ProjectDetailPage: React.FC = () => {
                   fileType="revision"
                   disabled={!canUploadDeliverable}
                   downloadsLocked={deliverableDownloadsLocked}
+                  {...fileActionProps}
                   currentUserId={user?._id}
                   canComment={canComment}
                   canResolve={canResolve}

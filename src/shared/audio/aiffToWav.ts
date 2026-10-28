@@ -1,5 +1,6 @@
 /**
- * Convert uncompressed PCM AIFF/AIFC (NONE / sowt) to a WAV Blob, preserving sample rate and bit depth.
+ * Bit-exact remux of uncompressed AIFF / AIFC (NONE, sowt, fl32) to a WAV Blob,
+ * preserving sample rate, bit depth and channel count.
  */
 
 function readFourCC(view: DataView, offset: number): string {
@@ -11,26 +12,26 @@ function readFourCC(view: DataView, offset: number): string {
   );
 }
 
-function readPascalString(view: DataView, offset: number): { value: string; bytesRead: number } {
-  const length = view.getUint8(offset);
-  let value = '';
-  for (let i = 0; i < length; i++) {
-    value += String.fromCharCode(view.getUint8(offset + 1 + i));
-  }
-  // Pascal string is padded to even length including length byte
-  const total = 1 + length + ((1 + length) % 2);
-  return { value, bytesRead: total };
-}
+type SampleEncoding = 'int' | 'float';
 
 interface AiffPcm {
   sampleRate: number;
   bitDepth: number;
+  bytesPerSample: number;
   channels: number;
-  numSampleFrames: number;
   littleEndian: boolean;
+  encoding: SampleEncoding;
   pcmOffset: number;
   pcmByteLength: number;
 }
+
+const PCM_COMPRESSION: Record<string, { littleEndian: boolean; encoding: SampleEncoding }> = {
+  NONE: { littleEndian: false, encoding: 'int' },
+  twos: { littleEndian: false, encoding: 'int' },
+  sowt: { littleEndian: true, encoding: 'int' },
+  fl32: { littleEndian: false, encoding: 'float' },
+  FL32: { littleEndian: false, encoding: 'float' }
+};
 
 function parseAiff(buffer: ArrayBuffer): AiffPcm {
   const view = new DataView(buffer);
@@ -53,7 +54,6 @@ function parseAiff(buffer: ArrayBuffer): AiffPcm {
   let numSampleFrames = 0;
   let bitDepth = 0;
   let sampleRate = 0;
-  let littleEndian = false;
   let pcmOffset = -1;
   let pcmByteLength = 0;
   let compression = 'NONE';
@@ -69,9 +69,9 @@ function parseAiff(buffer: ArrayBuffer): AiffPcm {
       bitDepth = view.getInt16(dataStart + 6, false);
       // 80-bit IEEE extended float sample rate (big-endian)
       sampleRate = readExtendedFloat80(view, dataStart + 8);
+      // AIFC: 4-byte compressionType ID follows, then a pascal-string display name
       if (formType === 'AIFC' && chunkSize >= 22) {
-        const pascal = readPascalString(view, dataStart + 18);
-        compression = pascal.value || readFourCC(view, dataStart + 18);
+        compression = readFourCC(view, dataStart + 18);
       }
     } else if (chunkId === 'SSND') {
       const offsetField = view.getUint32(dataStart, false);
@@ -88,21 +88,30 @@ function parseAiff(buffer: ArrayBuffer): AiffPcm {
     throw new Error('Incomplete AIFF headers');
   }
 
-  const normalized = compression.toUpperCase();
-  if (normalized !== 'NONE' && normalized !== 'SOWT' && normalized !== 'NOT COMPRESSED') {
+  const pcmFormat = PCM_COMPRESSION[compression] ?? PCM_COMPRESSION[compression.toUpperCase()];
+  if (!pcmFormat) {
     throw new Error(`Compressed AIFF (${compression}) is not supported in-browser`);
   }
 
-  littleEndian = normalized === 'SOWT';
+  const bytesPerSample = Math.ceil(bitDepth / 8);
+  if (pcmFormat.encoding === 'float' ? bitDepth !== 32 : bytesPerSample < 1 || bytesPerSample > 4) {
+    throw new Error(`Unsupported AIFF bit depth: ${bitDepth}`);
+  }
+
+  const available = Math.min(pcmByteLength, buffer.byteLength - pcmOffset);
+  const declared = numSampleFrames * bytesPerSample * channels;
+  const frameBytes = bytesPerSample * channels;
+  const usable = declared > 0 ? Math.min(available, declared) : available;
 
   return {
     sampleRate: Math.round(sampleRate),
     bitDepth,
+    bytesPerSample,
     channels,
-    numSampleFrames,
-    littleEndian,
+    littleEndian: pcmFormat.littleEndian,
+    encoding: pcmFormat.encoding,
     pcmOffset,
-    pcmByteLength
+    pcmByteLength: usable - (usable % frameBytes)
   };
 }
 
@@ -122,24 +131,32 @@ function readExtendedFloat80(view: DataView, offset: number): number {
   return sign * (mantissa / Math.pow(2, 63)) * Math.pow(2, exp);
 }
 
-function writeWavFromPcm(
-  pcm: Uint8Array,
-  sampleRate: number,
-  bitDepth: number,
-  channels: number,
-  littleEndianSource: boolean
-): Blob {
-  const bytesPerSample = bitDepth / 8;
-  if (![8, 16, 24, 32].includes(bitDepth)) {
-    throw new Error(`Unsupported AIFF bit depth: ${bitDepth}`);
+/** Rewrite AIFF sample bytes into WAV byte order (little-endian; 8-bit unsigned) in place. */
+function convertSamplesInPlace(pcm: Uint8Array, info: AiffPcm) {
+  const { bytesPerSample, littleEndian } = info;
+
+  if (bytesPerSample === 1) {
+    // AIFF 8-bit is signed; WAV 8-bit is unsigned
+    for (let i = 0; i < pcm.length; i++) pcm[i] ^= 0x80;
+    return;
   }
 
-  // Ensure sample count aligns
-  const frameCount = Math.floor(pcm.byteLength / (bytesPerSample * channels));
-  const dataLength = frameCount * bytesPerSample * channels;
-  const headerLength = 44;
-  const out = new ArrayBuffer(headerLength + dataLength);
-  const view = new DataView(out);
+  if (littleEndian) return;
+
+  for (let i = 0; i < pcm.length; i += bytesPerSample) {
+    for (let lo = i, hi = i + bytesPerSample - 1; lo < hi; lo++, hi--) {
+      const t = pcm[lo];
+      pcm[lo] = pcm[hi];
+      pcm[hi] = t;
+    }
+  }
+}
+
+function buildWavHeader(info: AiffPcm, dataLength: number): ArrayBuffer {
+  const containerBits = info.bytesPerSample * 8;
+  const blockAlign = info.channels * info.bytesPerSample;
+  const header = new ArrayBuffer(44);
+  const view = new DataView(header);
 
   const writeString = (off: number, str: string) => {
     for (let i = 0; i < str.length; i++) view.setUint8(off + i, str.charCodeAt(i));
@@ -150,57 +167,24 @@ function writeWavFromPcm(
   writeString(8, 'WAVE');
   writeString(12, 'fmt ');
   view.setUint32(16, 16, true);
-  view.setUint16(20, 1, true); // PCM
-  view.setUint16(22, channels, true);
-  view.setUint32(24, sampleRate, true);
-  view.setUint32(28, sampleRate * channels * bytesPerSample, true);
-  view.setUint16(32, channels * bytesPerSample, true);
-  view.setUint16(34, bitDepth, true);
+  view.setUint16(20, info.encoding === 'float' ? 3 : 1, true);
+  view.setUint16(22, info.channels, true);
+  view.setUint32(24, info.sampleRate, true);
+  view.setUint32(28, info.sampleRate * blockAlign, true);
+  view.setUint16(32, blockAlign, true);
+  view.setUint16(34, containerBits, true);
   writeString(36, 'data');
   view.setUint32(40, dataLength, true);
-
-  const src = new DataView(pcm.buffer, pcm.byteOffset, dataLength);
-  let outOffset = 44;
-
-  for (let i = 0; i < frameCount * channels; i++) {
-    const srcOffset = i * bytesPerSample;
-    if (bitDepth === 8) {
-      // AIFF 8-bit is signed; WAV 8-bit is unsigned
-      const sample = src.getInt8(srcOffset);
-      view.setUint8(outOffset, sample + 128);
-      outOffset += 1;
-    } else if (bitDepth === 16) {
-      const sample = src.getInt16(srcOffset, littleEndianSource);
-      view.setInt16(outOffset, sample, true);
-      outOffset += 2;
-    } else if (bitDepth === 24) {
-      let b0 = src.getUint8(srcOffset);
-      let b1 = src.getUint8(srcOffset + 1);
-      let b2 = src.getUint8(srcOffset + 2);
-      if (!littleEndianSource) {
-        // big-endian → little-endian
-        const t = b0;
-        b0 = b2;
-        b2 = t;
-      }
-      view.setUint8(outOffset, b0);
-      view.setUint8(outOffset + 1, b1);
-      view.setUint8(outOffset + 2, b2);
-      outOffset += 3;
-    } else {
-      // 32-bit PCM
-      const sample = src.getInt32(srcOffset, littleEndianSource);
-      view.setInt32(outOffset, sample, true);
-      outOffset += 4;
-    }
-  }
-
-  return new Blob([out], { type: 'audio/wav' });
+  return header;
 }
 
+/**
+ * Converts the sample bytes of `buffer` in place to avoid a second full-size copy,
+ * so the input buffer must not be reused by the caller.
+ */
 export function aiffArrayBufferToWavBlob(buffer: ArrayBuffer): Blob {
   const info = parseAiff(buffer);
-  const end = Math.min(buffer.byteLength, info.pcmOffset + info.pcmByteLength);
-  const pcm = new Uint8Array(buffer, info.pcmOffset, end - info.pcmOffset);
-  return writeWavFromPcm(pcm, info.sampleRate, info.bitDepth, info.channels, info.littleEndian);
+  const pcm = new Uint8Array(buffer, info.pcmOffset, info.pcmByteLength);
+  convertSamplesInPlace(pcm, info);
+  return new Blob([buildWavHeader(info, pcm.byteLength), pcm], { type: 'audio/wav' });
 }

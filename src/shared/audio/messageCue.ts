@@ -19,6 +19,24 @@ export function isTrackComment(msg: ProjectMessage): boolean {
   return getMessageFileId(msg.fileId) !== null;
 }
 
+/** Stable sender key; share-link guests are keyed by link + name since they have no account. */
+export function getMessageSenderId(msg: ProjectMessage): string {
+  if (msg.senderId) return typeof msg.senderId === 'string' ? msg.senderId : msg.senderId._id;
+  return `guest:${msg.shareLinkId ?? ''}:${msg.guestName ?? ''}`;
+}
+
+export function isGuestMessage(msg: ProjectMessage): boolean {
+  return msg.senderRole === 'customer_guest' || msg.senderRole === 'vendor_guest';
+}
+
+/** Display name without fallbacks: the account name or the name a guest typed in. */
+export function getMessageSenderName(msg: ProjectMessage): string | null {
+  if (msg.senderId && typeof msg.senderId === 'object' && msg.senderId.name?.trim()) {
+    return msg.senderId.name.trim();
+  }
+  return msg.guestName?.trim() || null;
+}
+
 export function isResolvedComment(msg: ProjectMessage): boolean {
   return Boolean(msg.resolvedAt);
 }

@@ -202,7 +202,9 @@
       "newRemoteProject": "{{customerName}} שלח/ה בקשת פרויקט עבור {{projectTitle}}",
       "projectChatMessage": "{{senderName}}: {{message}}",
       "projectTrackComment": "{{senderName}} הוסיף/ה הערה על {{fileName}}: {{message}}",
-      "projectCommentReply": "{{senderName}} השיב/ה על {{fileName}}: {{message}}"
+      "projectCommentReply": "{{senderName}} השיב/ה על {{fileName}}: {{message}}",
+      "projectAccessRequest": "{{requesterName}} ביקש/ה גישה ל{{projectTitle}}",
+      "projectAccessGranted": "קיבלת גישה ל{{projectTitle}}"
     },
     "page": {
       "title": "התראות",
@@ -264,6 +266,8 @@
       "project_chat_message": "הודעה חדשה בפרויקט",
       "project_track_comment": "הערה חדשה על טראק",
       "project_comment_reply": "תגובה חדשה להערה",
+      "project_access_request": "בקשת גישה",
+      "project_access_granted": "הגישה אושרה",
       "availability_alert": "התראת זמינות",
       "system_alert": "התראת מערכת"
     }

@@ -1,7 +1,8 @@
 import {
   getFileExtension,
   isPlayableAudioExtension,
-  HIFI_WASM_DECODE_MAX_BYTES
+  HIFI_WASM_DECODE_MAX_BYTES,
+  HIFI_PCM_REMUX_MAX_BYTES
 } from '@shared/constants/remoteProjectFileLimits';
 
 export type PlaybackStrategy = 'native' | 'wasm' | 'unsupported' | 'download_only';
@@ -29,6 +30,9 @@ const CAN_PLAY_CANDIDATES: Record<string, string[]> = {
   '.aiff': ['audio/aiff', 'audio/x-aiff']
 };
 
+/** Lossless formats the in-tab decoder can turn into a WAV the browser always accepts. */
+const IN_TAB_DECODE_EXTENSIONS = new Set(['.wav', '.flac', '.aif', '.aiff']);
+
 function probeCanPlay(mimeTypes: string[]): boolean {
   if (typeof Audio === 'undefined') return false;
   const audio = new Audio();
@@ -36,6 +40,20 @@ function probeCanPlay(mimeTypes: string[]): boolean {
     const result = audio.canPlayType(mime);
     return result === 'probably' || result === 'maybe';
   });
+}
+
+function inTabDecodeMaxBytes(extension: string): number {
+  return extension === '.aif' || extension === '.aiff'
+    ? HIFI_PCM_REMUX_MAX_BYTES
+    : HIFI_WASM_DECODE_MAX_BYTES;
+}
+
+/**
+ * Whether a file the browser failed to play natively can still be decoded in-tab.
+ */
+export function canDecodeInTab(fileName: string, fileSize: number): boolean {
+  const extension = getFileExtension(fileName);
+  return IN_TAB_DECODE_EXTENSIONS.has(extension) && fileSize <= inTabDecodeMaxBytes(extension);
 }
 
 /**
@@ -64,9 +82,8 @@ export function resolvePlaybackCapability(
     return { strategy: 'native', extension, mimeType: resolvedMime };
   }
 
-  // FLAC / AIFF often need WASM when the browser cannot play natively
-  if (extension === '.flac' || extension === '.aif' || extension === '.aiff') {
-    if (fileSize > HIFI_WASM_DECODE_MAX_BYTES) {
+  if (IN_TAB_DECODE_EXTENSIONS.has(extension)) {
+    if (fileSize > inTabDecodeMaxBytes(extension)) {
       return {
         strategy: 'download_only',
         extension,

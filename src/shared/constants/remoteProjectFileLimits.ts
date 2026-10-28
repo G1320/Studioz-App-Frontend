@@ -44,3 +44,9 @@ export function isPlayableAudioExtension(fileNameOrExt: string): boolean {
 
 /** Max file size for in-tab WASM decode fallback (bytes). Larger → download hint. */
 export const HIFI_WASM_DECODE_MAX_BYTES = 80 * 1024 * 1024;
+
+/**
+ * Max file size for the bit-exact AIFF → WAV remux (no decode, ~2× file size in memory).
+ * Covers the full upload limit so every accepted AIFF stays playable.
+ */
+export const HIFI_PCM_REMUX_MAX_BYTES = REMOTE_PROJECT_MAX_FILE_SIZE_MB * 1024 * 1024;

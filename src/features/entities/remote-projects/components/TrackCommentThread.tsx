@@ -5,7 +5,10 @@ import {
   buildTrackThread,
   formatPlaybackTime,
   getMessageFileId,
+  getMessageSenderId,
+  getMessageSenderName,
   hiFiAudioEngine,
+  isGuestMessage,
   isTimedComment,
   messageDomId,
   useAudioCueComment,
@@ -26,9 +29,6 @@ interface TrackCommentThreadProps {
   artworkUrl?: string;
   contextLabel?: string;
 }
-
-const senderId = (sender: ProjectMessage['senderId']): string =>
-  typeof sender === 'string' ? sender : sender._id;
 
 /**
  * Collapsible, per-track review thread. Lives directly under the file's player.
@@ -146,7 +146,8 @@ export const TrackCommentThread: FC<TrackCommentThreadProps> = ({
   const resolvedCount = thread.roots.length - thread.openCount;
 
   const senderName = (msg: ProjectMessage): string => {
-    if (typeof msg.senderId === 'object' && msg.senderId.name) return msg.senderId.name;
+    const name = getMessageSenderName(msg);
+    if (name) return isGuestMessage(msg) ? t('trackComments.guestName', { name }) : name;
     return msg.senderRole.startsWith('customer') ? t('customer') : t('vendor');
   };
 
@@ -195,7 +196,7 @@ export const TrackCommentThread: FC<TrackCommentThreadProps> = ({
   };
 
   const renderMessage = (msg: ProjectMessage, isReply: boolean) => {
-    const own = senderId(msg.senderId) === currentUserId;
+    const own = getMessageSenderId(msg) === currentUserId;
     const highlighted = cueComment?.highlightedMessageId === msg._id;
     return (
       <div

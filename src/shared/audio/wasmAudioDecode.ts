@@ -20,7 +20,7 @@ export async function decodeRemoteAudioToWavBlob(
     }
   }
 
-  if (ext === '.flac' || ext === '.aif' || ext === '.aiff') {
+  if (ext === '.flac' || ext === '.wav' || ext === '.aif' || ext === '.aiff') {
     const decode = (await import('audio-decode')).default;
     const audioData = await decode(arrayBuffer);
     return audioDataToWavBlob(audioData);

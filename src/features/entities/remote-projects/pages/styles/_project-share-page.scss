@@ -1,0 +1,200 @@
+@use 'design-system' as ds;
+
+.project-share-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  width: 100%;
+  max-width: 56rem;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 7rem;
+  box-sizing: border-box;
+  text-align: start;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  &__artwork {
+    width: 6rem;
+    height: 6rem;
+    flex-shrink: 0;
+    border-radius: ds.$radius-md;
+    object-fit: cover;
+    border: 1px solid var(--border-primary);
+  }
+
+  &__heading {
+    min-width: 0;
+  }
+
+  &__title {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+  }
+
+  &__studio {
+    margin: 0.25rem 0 0;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+  }
+
+  &__quality {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    margin: 0.5rem 0 0;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-brand);
+  }
+
+  &__join {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem 1rem;
+    padding: 1rem 1.125rem;
+    border: 1px solid var(--border-primary);
+    border-radius: ds.$radius-md;
+    background: var(--bg-surface);
+  }
+
+  &__join-title {
+    margin: 0 0 0.25rem;
+    font-size: 1rem;
+    font-weight: 650;
+    color: var(--text-primary);
+  }
+
+  &__join-body,
+  &__empty,
+  &__not-playable {
+    margin: 0;
+    font-size: 0.8125rem;
+    color: var(--text-secondary);
+  }
+
+  &__files {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__file {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.75rem 0.875rem;
+    border: 1px solid var(--border-primary);
+    border-radius: ds.$radius-md;
+    background: var(--bg-surface);
+  }
+
+  &__file-row {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    min-width: 0;
+  }
+
+  &__file-index {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+  }
+
+  &__file-name {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__file-size {
+    flex-shrink: 0;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+  }
+
+  &__download {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 2rem;
+    height: 2rem;
+    padding: 0;
+    border: 1px solid var(--border-primary);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--text-primary);
+    cursor: pointer;
+
+    &:hover:not(:disabled) {
+      border-color: var(--color-brand);
+      color: var(--color-brand);
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.55;
+    }
+  }
+
+  &__spin {
+    animation: project-share-page-spin 0.9s linear infinite;
+  }
+
+  &__unlock {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+
+    .project-invite-page__title {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+  }
+
+  &__password {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.6rem 0.75rem;
+    border: 1px solid var(--border-primary);
+    border-radius: 0.5rem;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font: inherit;
+  }
+
+  &__lock-note {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin: 0;
+    font-size: 0.8125rem;
+    color: var(--text-secondary);
+  }
+}
+
+@keyframes project-share-page-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
