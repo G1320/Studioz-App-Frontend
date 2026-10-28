@@ -11,6 +11,7 @@ import {
   setAuthReturnTo,
   setPendingProjectInviteToken
 } from '@shared/utils/authReturnTo';
+import { prefersRedirectLogin } from '@shared/utils/botDetection';
 import './styles/_project-invite-page.scss';
 
 export const ProjectInviteAcceptPage: React.FC = () => {
@@ -24,6 +25,7 @@ export const ProjectInviteAcceptPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [accepting, setAccepting] = useState(false);
+  const [signingIn, setSigningIn] = useState(false);
   const autoAcceptStarted = useRef(false);
 
   useEffect(() => {
@@ -49,25 +51,45 @@ export const ProjectInviteAcceptPage: React.FC = () => {
     };
   }, [token, t]);
 
-  const ensureLoggedIn = async () => {
-    if (!token) return;
+  const uiLocales = i18n.language?.startsWith('he') ? 'he' : 'en';
+
+  const prepareLogin = () => {
+    if (!token) return null;
     const returnTo = `/${i18n.language}/projects/invites/${token}`;
     setPendingProjectInviteToken(token);
     setAuthReturnTo(returnTo);
+    return returnTo;
+  };
+
+  const loginInThisTab = async () => {
+    const returnTo = prepareLogin();
+    if (!returnTo) return;
+    await loginWithRedirect({
+      appState: { returnTo },
+      authorizationParams: { ui_locales: uiLocales }
+    });
+  };
+
+  const ensureLoggedIn = async () => {
+    if (prefersRedirectLogin()) {
+      await loginInThisTab();
+      return;
+    }
+    const returnTo = prepareLogin();
+    if (!returnTo) return;
 
     // Prefer popup so we never leave this page (avoids Auth0 → `/` round-trip).
-    const uiLocales = i18n.language?.startsWith('he') ? 'he' : 'en';
+    setSigningIn(true);
     try {
-      await loginWithPopup({
-        authorizationParams: { ui_locales: uiLocales }
-      });
-      return;
-    } catch {
+      // Sign-up inside the popup can take a while; Auth0's 60s default is too short.
+      await loginWithPopup({ authorizationParams: { ui_locales: uiLocales } }, { timeoutInSeconds: 600 });
+    } catch (err: unknown) {
+      const code = (err as { error?: string })?.error;
+      if (code === 'cancelled' || code === 'timeout') return;
       // Popup blocked / in-app browser — fall back to redirect
-      await loginWithRedirect({
-        appState: { returnTo },
-        authorizationParams: { ui_locales: uiLocales }
-      });
+      await loginInThisTab();
+    } finally {
+      setSigningIn(false);
     }
   };
 
@@ -123,7 +145,8 @@ export const ProjectInviteAcceptPage: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps -- run once when invite + Studioz user are ready
   }, [token, isAuthenticated, invite, user?._id, user?.email, loading, authLoading, accepting]);
 
-  if (loading || authLoading) {
+  // Auth0 also reports loading while the login popup is open; keep the page usable then.
+  if (loading || (authLoading && !signingIn)) {
     return (
       <div className="project-invite-page project-invite-page--status">
         <div className="project-invite-page__panel" aria-busy="true">
@@ -185,18 +208,29 @@ export const ProjectInviteAcceptPage: React.FC = () => {
           <Button
             className="button--primary"
             onClick={handleAccept}
-            disabled={accepting || (invite?.status !== 'pending' && invite?.status !== 'accepted')}
+            disabled={signingIn || accepting || (invite?.status !== 'pending' && invite?.status !== 'accepted')}
           >
             {accepting
               ? t('common.sending')
-              : isAuthenticated
-                ? t('collaborators.accept')
-                : t('collaborators.loginToAccept')}
+              : signingIn
+                ? t('collaborators.waitingForSignIn')
+                : isAuthenticated
+                  ? t('collaborators.accept')
+                  : t('collaborators.loginToAccept')}
           </Button>
           <Button className="button--secondary" onClick={() => navigate(`/${i18n.language}/projects`)}>
             {t('common.cancel', { defaultValue: 'Cancel' })}
           </Button>
         </div>
+
+        {signingIn ? (
+          <p className="project-invite-page__hint">
+            {t('collaborators.signInPopupHint')}{' '}
+            <button type="button" className="project-invite-page__link" onClick={() => void loginInThisTab()}>
+              {t('collaborators.signInThisTab')}
+            </button>
+          </p>
+        ) : null}
       </div>
     </div>
   );

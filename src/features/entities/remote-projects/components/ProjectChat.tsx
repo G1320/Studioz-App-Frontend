@@ -43,6 +43,7 @@ export const ProjectChat: React.FC<ProjectChatProps> = ({
     (message) => !message.readAt && getMessageSenderId(message) !== currentUserId
   ).length;
   const sendMessageMutation = useSendMessageMutation();
+  const sendingRef = useRef(false);
   const { mutate: markMessagesRead } = useMarkMessagesReadMutation();
 
   useEffect(() => {
@@ -95,7 +96,8 @@ export const ProjectChat: React.FC<ProjectChatProps> = ({
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!newMessage.trim() || disabled) return;
+    if (!newMessage.trim() || disabled || sendingRef.current) return;
+    sendingRef.current = true;
 
     try {
       await sendMessageMutation.mutateAsync({
@@ -106,6 +108,8 @@ export const ProjectChat: React.FC<ProjectChatProps> = ({
       refetch();
     } catch (error) {
       console.error('Failed to send message:', error);
+    } finally {
+      sendingRef.current = false;
     }
   };
 

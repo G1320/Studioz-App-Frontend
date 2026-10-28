@@ -430,7 +430,7 @@ export const markMessagesAsRead = async (
 export const inviteCollaborator = async (
   projectId: string,
   email: string,
-  grant?: ProjectGrantRequest
+  grant?: ProjectGrantRequest & { side?: import('src/types').ProjectSide }
 ): Promise<{ invite: import('src/types').ProjectInvite }> => {
   return httpService.post(`${endpoint}/${projectId}/collaborators/invite`, { email, ...grant });
 };
@@ -438,7 +438,7 @@ export const inviteCollaborator = async (
 export const updateCollaborator = async (
   projectId: string,
   userId: string,
-  grant: ProjectGrantRequest & { expiresAt?: string | null }
+  grant: ProjectGrantRequest & { expiresAt?: string | null; side?: import('src/types').ProjectSide }
 ): Promise<{ collaborator: import('src/types').ProjectCollaborator }> => {
   return httpService.patch(`${endpoint}/${projectId}/collaborators/${userId}`, grant);
 };

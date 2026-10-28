@@ -229,6 +229,8 @@
     "tabs": { "people": "אנשים", "links": "קישורים" },
     "emailLabel": "כתובת אימייל",
     "inviteShort": "הזמנה",
+    "sideLabel": "לאיזה צד הם מצטרפים",
+    "moveTo": "העברה ל{{side}}",
     "updateFailed": "עדכון משתף הפעולה נכשל",
     "hint": "הזמינו שותפים באימייל ובחרו בדיוק מה הם יכולים לעשות.",
     "viaLink": "הצטרף/ה דרך קישור",
@@ -258,6 +260,9 @@
     "emailMismatchHint": "יש להתחבר עם אותו אימייל כדי לאשר.",
     "accept": "קבלת הזמנה",
     "loginToAccept": "התחבר/י כדי לאשר",
+    "waitingForSignIn": "ממתין להתחברות…",
+    "signInPopupHint": "יש להשלים את ההתחברות או יצירת החשבון בחלון הקופץ.",
+    "signInThisTab": "לא רואים אותו? התחברו כאן במקום",
     "acceptFailed": "אישור ההזמנה נכשל",
     "inviteNotFound": "ההזמנה לא נמצאה או שפגה",
     "aProject": "פרויקט",
@@ -343,6 +348,16 @@
     "scopeCount_other": "{{count}} קבצים",
     "stats": "{{views}} צפיות · {{joins}} הצטרפו",
     "empty": "אין קישורי שיתוף עדיין."
+  },
+  "signInRequired": {
+    "title": "יש להתחבר כדי לפתוח את הפרויקט",
+    "body": "פרויקטים הם פרטיים. התחברו עם החשבון שהוזמן.",
+    "signIn": "התחברות"
+  },
+  "uploadHints": {
+    "sourceClientOnly": "מועלים על ידי הלקוח",
+    "closedAtThisStage": "ההעלאה סגורה בשלב הזה",
+    "deliverablesWhileWorking": "אפשר להעלות בזמן העבודה"
   },
   "accessRequests": {
     "title": "בקשות גישה",

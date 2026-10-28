@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Check, ChevronDown, Loader2, LogOut, MailX, Plus, UserMinus, X } from 'lucide-react';
+import { ArrowLeftRight, Check, ChevronDown, Loader2, LogOut, MailX, Plus, UserMinus, X } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Button } from '@shared/components';
@@ -19,7 +19,8 @@ import type {
   ProjectAccess,
   ProjectAccessRequestItem,
   ProjectCollaborator,
-  ProjectInvite
+  ProjectInvite,
+  ProjectSide
 } from 'src/types';
 import { ProjectCollaboratorAvatars } from './ProjectCollaboratorAvatars';
 import { GrantDetails, RoleSelect, grantDraftForRole, type GrantDraft } from './ProjectGrantEditor';
@@ -32,6 +33,9 @@ const apiErrorMessage = (err: unknown, fallback: string) =>
   (err as { response?: { data?: { message?: string } } })?.response?.data?.message || fallback;
 
 type Tab = 'people' | 'links';
+
+const SIDES: ProjectSide[] = ['vendor', 'customer'];
+const otherSide = (side: ProjectSide): ProjectSide => (side === 'vendor' ? 'customer' : 'vendor');
 
 interface ProjectCollaboratorsProps {
   projectId: string;
@@ -62,8 +66,9 @@ export const ProjectCollaborators: React.FC<ProjectCollaboratorsProps> = ({
     enabled: !!projectId
   });
 
-  const showInvite =
-    canInvite === true || access?.canInvite === true || access?.isPrimary === true;
+  const showInvite = canInvite === true || access?.canInvite === true || access?.isPrimary === true;
+  const canChooseSide = showInvite && access?.canChooseSide === true;
+  const [inviteSide, setInviteSide] = useState<ProjectSide>(access?.side ?? 'vendor');
   const { files } = useProjectFiles({ projectId: modalOpen && showInvite ? projectId : '' });
 
   const { data: accessRequestData } = useQuery({
@@ -114,7 +119,8 @@ export const ProjectCollaborators: React.FC<ProjectCollaboratorsProps> = ({
     mutationFn: (inviteEmail: string) =>
       inviteCollaborator(projectId, inviteEmail, {
         capabilities: inviteGrant.capabilities,
-        fileIds: inviteGrant.fileIds.length ? inviteGrant.fileIds : undefined
+        fileIds: inviteGrant.fileIds.length ? inviteGrant.fileIds : undefined,
+        ...(canChooseSide ? { side: inviteSide } : {})
       }),
     onSuccess: () => {
       setEmail('');
@@ -145,6 +151,13 @@ export const ProjectCollaborators: React.FC<ProjectCollaboratorsProps> = ({
     onError: (err: unknown) => setError(apiErrorMessage(err, t('collaborators.updateFailed')))
   });
 
+  const moveMutation = useMutation({
+    mutationFn: ({ userId, side }: { userId: string; side: ProjectSide }) =>
+      updateCollaborator(projectId, userId, { side }),
+    onSuccess: invalidate,
+    onError: (err: unknown) => setError(apiErrorMessage(err, t('collaborators.updateFailed')))
+  });
+
   const handleInvite = (e: React.FormEvent) => {
     e.preventDefault();
     if (!email.trim()) return;
@@ -169,12 +182,11 @@ export const ProjectCollaborators: React.FC<ProjectCollaboratorsProps> = ({
   const collaborators = data?.collaborators || [];
   const pending = data?.pendingInvites || [];
   const roleLabel = (role?: string) => t(`permissions.roles.${role || 'editor'}.name`);
-  const canManageSide = (side: string) => showInvite && (!access?.side || access.side === side);
+  const canManageSide = (side: string) => showInvite && (canChooseSide || !access?.side || access.side === side);
 
   const collaboratorMeta = (c: ProjectCollaborator) =>
     [
       typeof c.userId === 'object' && c.userId.email ? c.userId.email : null,
-      t(`collaborators.side.${c.side}`),
       c.fileIds?.length ? t('shareLinks.scopeCount', { count: c.fileIds.length }) : null,
       c.expiresAt ? t('shareLinks.expiresOn', { date: new Date(c.expiresAt).toLocaleDateString() }) : null,
       c.shareLinkId ? t('collaborators.viaLink') : null
@@ -182,85 +194,113 @@ export const ProjectCollaborators: React.FC<ProjectCollaboratorsProps> = ({
       .filter(Boolean)
       .join(' · ');
 
+  const renderCollaborator = (c: ProjectCollaborator) => {
+    const id = collaboratorUserId(c.userId);
+    const isSelf = currentUserId === id;
+    const manageable = canManageSide(c.side) && !isSelf;
+    const moveLabel = t('collaborators.moveTo', { side: t(`collaborators.side.${otherSide(c.side)}`) });
+    return (
+      <li key={id} className="project-collaborators__item">
+        <div className="project-collaborators__person">
+          <div className="project-collaborators__name">{collaboratorUserLabel(c.userId)}</div>
+          <div className="project-collaborators__meta">{collaboratorMeta(c)}</div>
+        </div>
+        <div className="project-collaborators__item-actions">
+          {manageable ? (
+            <RoleSelect
+              value={{ capabilities: c.capabilities ?? [...ROLE_CAPABILITIES.editor], fileIds: [] }}
+              onChange={(grant) => roleMutation.mutate({ collaborator: c, grant })}
+              disabled={roleMutation.isPending}
+            />
+          ) : (
+            <span className="project-collaborators__role">{roleLabel(c.role)}</span>
+          )}
+          {manageable && canChooseSide && (
+            <button
+              type="button"
+              className="project-icon-action project-icon-action--round project-icon-action--neutral"
+              onClick={() => moveMutation.mutate({ userId: id, side: otherSide(c.side) })}
+              disabled={moveMutation.isPending}
+              aria-label={moveLabel}
+              title={moveLabel}
+            >
+              {moveMutation.isPending && moveMutation.variables?.userId === id ? (
+                <Loader2 className="project-icon-action__spin" aria-hidden />
+              ) : (
+                <ArrowLeftRight aria-hidden />
+              )}
+            </button>
+          )}
+          {(manageable || isSelf) && (
+            <button
+              type="button"
+              className="project-icon-action project-icon-action--round project-icon-action--danger"
+              onClick={() => removeMutation.mutate(id)}
+              disabled={removeMutation.isPending}
+              aria-label={isSelf ? t('collaborators.leave') : t('collaborators.remove')}
+              title={isSelf ? t('collaborators.leave') : t('collaborators.remove')}
+            >
+              {removeMutation.isPending && removeMutation.variables === id ? (
+                <Loader2 className="project-icon-action__spin" aria-hidden />
+              ) : isSelf ? (
+                <LogOut aria-hidden />
+              ) : (
+                <UserMinus aria-hidden />
+              )}
+            </button>
+          )}
+        </div>
+      </li>
+    );
+  };
+
+  const renderInvite = (invite: ProjectInvite) => (
+    <li key={invite._id} className="project-collaborators__item project-collaborators__item--pending">
+      <div className="project-collaborators__person">
+        <div className="project-collaborators__name">{invite.email}</div>
+        <div className="project-collaborators__meta">{t('collaborators.pending')}</div>
+      </div>
+      <div className="project-collaborators__item-actions">
+        <span className="project-collaborators__role">{roleLabel(invite.role)}</span>
+        {canManageSide(invite.side) && (
+          <button
+            type="button"
+            className="project-icon-action project-icon-action--round project-icon-action--neutral"
+            onClick={() => revokeMutation.mutate(invite._id)}
+            disabled={revokeMutation.isPending}
+            aria-label={t('collaborators.revoke')}
+            title={t('collaborators.revoke')}
+          >
+            {revokeMutation.isPending && revokeMutation.variables === invite._id ? (
+              <Loader2 className="project-icon-action__spin" aria-hidden />
+            ) : (
+              <MailX aria-hidden />
+            )}
+          </button>
+        )}
+      </div>
+    </li>
+  );
+
   const peopleList = isLoading ? (
     <div className="project-collaborators__loading">{t('common.loading')}</div>
+  ) : collaborators.length === 0 && pending.length === 0 ? (
+    <p className="project-collaborators__empty">{t('collaborators.empty')}</p>
   ) : (
-    <ul className="project-collaborators__list">
-      {collaborators.map((c: ProjectCollaborator) => {
-        const id = collaboratorUserId(c.userId);
-        const isSelf = currentUserId === id;
-        const manageable = canManageSide(c.side) && !isSelf;
-        return (
-          <li key={id} className="project-collaborators__item">
-            <div className="project-collaborators__person">
-              <div className="project-collaborators__name">{collaboratorUserLabel(c.userId)}</div>
-              <div className="project-collaborators__meta">{collaboratorMeta(c)}</div>
-            </div>
-            <div className="project-collaborators__item-actions">
-              {manageable ? (
-                <RoleSelect
-                  value={{ capabilities: c.capabilities ?? [...ROLE_CAPABILITIES.editor], fileIds: [] }}
-                  onChange={(grant) => roleMutation.mutate({ collaborator: c, grant })}
-                  disabled={roleMutation.isPending}
-                />
-              ) : (
-                <span className="project-collaborators__role">{roleLabel(c.role)}</span>
-              )}
-              {(manageable || isSelf) && (
-                <button
-                  type="button"
-                  className="project-icon-action project-icon-action--round project-icon-action--danger"
-                  onClick={() => removeMutation.mutate(id)}
-                  disabled={removeMutation.isPending}
-                  aria-label={isSelf ? t('collaborators.leave') : t('collaborators.remove')}
-                  title={isSelf ? t('collaborators.leave') : t('collaborators.remove')}
-                >
-                  {removeMutation.isPending && removeMutation.variables === id ? (
-                    <Loader2 className="project-icon-action__spin" aria-hidden />
-                  ) : isSelf ? (
-                    <LogOut aria-hidden />
-                  ) : (
-                    <UserMinus aria-hidden />
-                  )}
-                </button>
-              )}
-            </div>
-          </li>
-        );
-      })}
-      {pending.map((invite: ProjectInvite) => (
-        <li key={invite._id} className="project-collaborators__item project-collaborators__item--pending">
-          <div className="project-collaborators__person">
-            <div className="project-collaborators__name">{invite.email}</div>
-            <div className="project-collaborators__meta">
-              {t('collaborators.pending')} · {t(`collaborators.side.${invite.side}`)}
-            </div>
-          </div>
-          <div className="project-collaborators__item-actions">
-            <span className="project-collaborators__role">{roleLabel(invite.role)}</span>
-            {canManageSide(invite.side) && (
-              <button
-                type="button"
-                className="project-icon-action project-icon-action--round project-icon-action--neutral"
-                onClick={() => revokeMutation.mutate(invite._id)}
-                disabled={revokeMutation.isPending}
-                aria-label={t('collaborators.revoke')}
-                title={t('collaborators.revoke')}
-              >
-                {revokeMutation.isPending && revokeMutation.variables === invite._id ? (
-                  <Loader2 className="project-icon-action__spin" aria-hidden />
-                ) : (
-                  <MailX aria-hidden />
-                )}
-              </button>
-            )}
-          </div>
-        </li>
-      ))}
-      {collaborators.length === 0 && pending.length === 0 ? (
-        <li className="project-collaborators__empty">{t('collaborators.empty')}</li>
-      ) : null}
-    </ul>
+    SIDES.map((side) => {
+      const sideCollaborators = collaborators.filter((c: ProjectCollaborator) => c.side === side);
+      const sideInvites = pending.filter((invite: ProjectInvite) => invite.side === side);
+      if (sideCollaborators.length === 0 && sideInvites.length === 0) return null;
+      return (
+        <section key={side} className="project-collaborators__side" aria-label={t(`collaborators.side.${side}`)}>
+          <h4 className="project-collaborators__section-title">{t(`collaborators.side.${side}`)}</h4>
+          <ul className="project-collaborators__list">
+            {sideCollaborators.map(renderCollaborator)}
+            {sideInvites.map(renderInvite)}
+          </ul>
+        </section>
+      );
+    })
   );
 
   return (
@@ -371,15 +411,39 @@ export const ProjectCollaborators: React.FC<ProjectCollaboratorsProps> = ({
                           {inviteMutation.isPending ? t('common.sending') : t('collaborators.inviteShort')}
                         </Button>
                       </div>
-                      <button
-                        type="button"
-                        className="project-collaborators__more"
-                        onClick={() => setInviteMoreOpen((open) => !open)}
-                        aria-expanded={inviteMoreOpen}
-                      >
-                        {inviteMoreOpen ? t('permissions.fewerOptions') : t('permissions.moreOptions')}
-                        <ChevronDown size={14} aria-hidden className={inviteMoreOpen ? 'is-open' : undefined} />
-                      </button>
+                      <div className="project-collaborators__invite-options">
+                        {canChooseSide && (
+                          <div
+                            className="project-collaborators__side-toggle"
+                            role="radiogroup"
+                            aria-label={t('collaborators.sideLabel')}
+                          >
+                            {SIDES.map((side) => (
+                              <button
+                                key={side}
+                                type="button"
+                                role="radio"
+                                aria-checked={inviteSide === side}
+                                className={`project-collaborators__side-option${
+                                  inviteSide === side ? ' project-collaborators__side-option--active' : ''
+                                }`}
+                                onClick={() => setInviteSide(side)}
+                              >
+                                {t(`collaborators.side.${side}`)}
+                              </button>
+                            ))}
+                          </div>
+                        )}
+                        <button
+                          type="button"
+                          className="project-collaborators__more"
+                          onClick={() => setInviteMoreOpen((open) => !open)}
+                          aria-expanded={inviteMoreOpen}
+                        >
+                          {inviteMoreOpen ? t('permissions.fewerOptions') : t('permissions.moreOptions')}
+                          <ChevronDown size={14} aria-hidden className={inviteMoreOpen ? 'is-open' : undefined} />
+                        </button>
+                      </div>
                       {inviteMoreOpen && (
                         <GrantDetails
                           value={inviteGrant}
@@ -451,9 +515,6 @@ export const ProjectCollaborators: React.FC<ProjectCollaboratorsProps> = ({
                     </section>
                   )}
 
-                  {showInvite && accessRequests.length > 0 ? (
-                    <h4 className="project-collaborators__section-title">{t('collaborators.tabs.people')}</h4>
-                  ) : null}
                   {peopleList}
                 </>
               )}

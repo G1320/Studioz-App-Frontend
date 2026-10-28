@@ -258,6 +258,41 @@
     color: var(--text-secondary);
   }
 
+  &__invite-options {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  &__side-toggle {
+    display: inline-flex;
+    padding: 0.15rem;
+    border: 1px solid var(--border-primary);
+    border-radius: 9999px;
+  }
+
+  &__side-option {
+    padding: 0.25rem 0.7rem;
+    border: none;
+    border-radius: 9999px;
+    background: none;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    cursor: pointer;
+
+    &--active {
+      background: color-mix(in srgb, var(--color-brand) 14%, transparent);
+      color: var(--text-primary);
+    }
+  }
+
+  &__side + &__side {
+    margin-top: 0.75rem;
+  }
+
   &__person {
     min-width: 0;
     flex: 1 1 auto;

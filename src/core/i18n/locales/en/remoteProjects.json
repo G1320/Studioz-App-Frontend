@@ -217,6 +217,8 @@
     "tabs": { "people": "People", "links": "Links" },
     "emailLabel": "Email address",
     "inviteShort": "Invite",
+    "sideLabel": "Which side they join",
+    "moveTo": "Move to {{side}}",
     "updateFailed": "Could not update collaborator",
     "hint": "Invite teammates by email and choose exactly what they can do.",
     "viaLink": "joined via link",
@@ -246,6 +248,9 @@
     "emailMismatchHint": "Sign in with that email to accept.",
     "accept": "Accept invitation",
     "loginToAccept": "Log in to accept",
+    "waitingForSignIn": "Waiting for sign-in…",
+    "signInPopupHint": "Finish signing in or creating your account in the popup window.",
+    "signInThisTab": "Can't see it? Sign in here instead",
     "acceptFailed": "Could not accept invitation",
     "inviteNotFound": "Invitation not found or expired",
     "aProject": "a project",
@@ -343,6 +348,16 @@
     "scopeCount_other": "{{count}} files",
     "stats": "{{views}} views · {{joins}} joined",
     "empty": "No share links yet."
+  },
+  "signInRequired": {
+    "title": "Sign in to open this project",
+    "body": "Projects are private. Sign in with the account that was invited.",
+    "signIn": "Sign in"
+  },
+  "uploadHints": {
+    "sourceClientOnly": "Added by the client",
+    "closedAtThisStage": "Uploads closed at this stage",
+    "deliverablesWhileWorking": "Upload while work is in progress"
   },
   "accessRequests": {
     "title": "Access requests",

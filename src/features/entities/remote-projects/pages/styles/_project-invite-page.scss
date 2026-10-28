@@ -96,6 +96,16 @@
     color: var(--text-secondary);
   }
 
+  &__link {
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--text-primary);
+    font: inherit;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
   &__error {
     margin: 0 0 0.75rem;
     color: var(--color-error, #e57373);

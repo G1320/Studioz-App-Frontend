@@ -14,6 +14,7 @@ import {
   isSafeInternalPath,
   setAuthReturnTo
 } from '@shared/utils/authReturnTo';
+import { prefersRedirectLogin } from '@shared/utils/botDetection';
 
 function currentAppPath(): string {
   return `${window.location.pathname}${window.location.search}${window.location.hash}`;
@@ -45,7 +46,12 @@ export function resetAuth0LoginSyncState(): void {
  * @returns Object containing loginWithPopup function and loading state
  */
 export const useAuth0LoginHandler = () => {
-  const { user: auth0User, loginWithPopup: auth0LoginWithPopup, isAuthenticated } = useAuth0();
+  const {
+    user: auth0User,
+    loginWithPopup: auth0LoginWithPopup,
+    loginWithRedirect: auth0LoginWithRedirect,
+    isAuthenticated
+  } = useAuth0();
   const { setUser: setUserContext, user: currentUser } = useUserContext();
   const langNavigate = useLanguageNavigate();
   const navigate = useNavigate();
@@ -83,6 +89,15 @@ export const useAuth0LoginHandler = () => {
       }
       const [options, config] = args;
       const uiLocales = i18n.language?.startsWith('he') ? 'he' : 'en';
+      const loginInThisTab = () =>
+        auth0LoginWithRedirect({
+          appState: { returnTo: path },
+          authorizationParams: { ui_locales: uiLocales, ...options?.authorizationParams }
+        });
+      if (prefersRedirectLogin()) {
+        await loginInThisTab();
+        return undefined;
+      }
       try {
         return await auth0LoginWithPopup(
           {
@@ -106,11 +121,15 @@ export const useAuth0LoginHandler = () => {
         if (cancelled) {
           return undefined;
         }
+        if (msg.includes('unable to open a popup')) {
+          await loginInThisTab();
+          return undefined;
+        }
         toast.error(i18n.t('common:toasts.error.loginFailed', 'Sign-in failed. Please try again.'));
         throw error;
       }
     },
-    [auth0LoginWithPopup]
+    [auth0LoginWithPopup, auth0LoginWithRedirect]
   );
 
   useEffect(() => {

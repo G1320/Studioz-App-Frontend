@@ -26,6 +26,7 @@ import { ProjectChat } from '../components/ProjectChat';
 import { ProjectCollaborators } from '../components/ProjectCollaborators';
 import { DownloadLockControl } from '../components/DownloadLockControl';
 import { ProjectAccessDenied } from '../components/ProjectAccessDenied';
+import { ProjectSignInRequired } from '../components/ProjectSignInRequired';
 import { RemoteProject, ProjectFileType } from 'src/types/index';
 import './styles/_project-detail-page.scss';
 
@@ -54,7 +55,13 @@ const ProjectNotificationDeepLink: React.FC = () => {
   return null;
 };
 
+/** Never request project data without a signed-in app user: the API cookie can outlive the UI session. */
 export const ProjectDetailPage: React.FC = () => {
+  const { user } = useUserContext();
+  return user?._id ? <ProjectDetailContent /> : <ProjectSignInRequired />;
+};
+
+const ProjectDetailContent: React.FC = () => {
   const { projectId } = useParams<{ projectId: string }>();
   const navigate = useNavigate();
   const { t } = useTranslation('remoteProjects');
@@ -371,6 +378,13 @@ export const ProjectDetailPage: React.FC = () => {
   const canUploadDeliverable =
     canUpload && isVendorSide && ['in_progress', 'revision_requested'].includes(project.status);
   const canUploadRevision = canUploadDeliverable && project.revisionsUsed > 0;
+  const sourceUploadHint = !canUpload
+    ? undefined
+    : isVendorSide
+      ? t('uploadHints.sourceClientOnly')
+      : t('uploadHints.closedAtThisStage');
+  const deliverableUploadHint =
+    canUpload && isVendorSide ? t('uploadHints.deliverablesWhileWorking') : undefined;
   uploadEnabledRef.current = {
     source: canUploadSource,
     deliverable: canUploadDeliverable,
@@ -627,9 +641,9 @@ export const ProjectDetailPage: React.FC = () => {
                   projectId={projectId}
                   fileType="source"
                   disabled={!canUploadSource}
+                  disabledHint={sourceUploadHint}
                   maxFileSize={typeof project.itemId === 'object' ? project.itemId.maxFileSize : undefined}
                   maxFiles={typeof project.itemId === 'object' ? project.itemId.maxFilesPerProject : undefined}
-                  acceptedTypes={typeof project.itemId === 'object' ? project.itemId.acceptedFileTypes : undefined}
                   {...fileActionProps}
                   currentUserId={user?._id}
                   canComment={canComment}
@@ -662,6 +676,7 @@ export const ProjectDetailPage: React.FC = () => {
                   projectId={projectId}
                   fileType="deliverable"
                   disabled={!canUploadDeliverable}
+                  disabledHint={deliverableUploadHint}
                   downloadsLocked={deliverableDownloadsLocked}
                   {...fileActionProps}
                   currentUserId={user?._id}

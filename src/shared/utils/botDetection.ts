@@ -14,6 +14,18 @@ export const isInAppBrowser = (): boolean => {
 };
 
 /**
+ * Auth0's popup login hands the session back via `window.opener`. Phones, in-app browsers and
+ * narrow windows often open the "popup" as a tab without an opener, which strands the user on a
+ * blank `/authorize/resume` page, so use the full-page redirect there instead.
+ */
+export const prefersRedirectLogin = (): boolean => {
+  if (typeof window === 'undefined') return false;
+  if (isInAppBrowser()) return true;
+  const coarsePointer = window.matchMedia?.('(pointer: coarse)').matches ?? false;
+  return coarsePointer || window.innerWidth < 768;
+};
+
+/**
  * Check if the current user agent is a bot/crawler
  * Detects common search engine crawlers and bots
  */

@@ -47,6 +47,7 @@ export const TrackCommentThread: FC<TrackCommentThreadProps> = ({
   const cueComment = useAudioCueComment();
   const { messages, isLoading } = useProjectMessages({ projectId });
   const sendMutation = useSendMessageMutation();
+  const sendingRef = useRef(false);
   const resolveMutation = useResolveMessageMutation();
   const { currentTime, active } = useHiFiAudioEngine();
 
@@ -171,7 +172,8 @@ export const TrackCommentThread: FC<TrackCommentThreadProps> = ({
   const submit = async (e: FormEvent) => {
     e.preventDefault();
     const text = draft.trim();
-    if (!text || !canComment || sendMutation.isPending) return;
+    if (!text || !canComment || sendMutation.isPending || sendingRef.current) return;
+    sendingRef.current = true;
     const offsetSeconds = replyTo
       ? replyTo.offsetSeconds
       : pendingCue?.offsetSeconds ?? (isActiveTrack ? currentTime : 0);
@@ -188,6 +190,8 @@ export const TrackCommentThread: FC<TrackCommentThreadProps> = ({
       cueComment?.clearPendingCue();
     } catch (error) {
       console.error('Failed to post track comment:', error);
+    } finally {
+      sendingRef.current = false;
     }
   };
 

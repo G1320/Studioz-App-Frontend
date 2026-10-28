@@ -30,6 +30,8 @@ interface ProjectFileUploaderProps {
   maxFileSize?: number;
   maxFiles?: number;
   disabled?: boolean;
+  /** Shown in the header instead of the add button when uploading here isn't allowed. */
+  disabledHint?: string;
   downloadsLocked?: boolean;
   /** The user's role has no download capability: hide download controls entirely. */
   downloadsNotPermitted?: boolean;
@@ -63,6 +65,7 @@ export const ProjectFileUploader = forwardRef<ProjectFileUploaderHandle, Project
       maxFileSize = REMOTE_PROJECT_MAX_FILE_SIZE_MB,
       maxFiles = REMOTE_PROJECT_MAX_FILES_PER_PROJECT,
       disabled = false,
+      disabledHint,
       downloadsLocked = false,
       downloadsNotPermitted = false,
       canEditFiles,
@@ -126,7 +129,15 @@ export const ProjectFileUploader = forwardRef<ProjectFileUploaderHandle, Project
         } catch (error) {
           setUploads((prev) =>
             prev.map((u) =>
-              u.fileId === tempId ? { ...u, status: 'error', error: (error as Error).message } : u
+              u.fileId === tempId
+                ? {
+                    ...u,
+                    status: 'error',
+                    error:
+                      (error as { response?: { data?: { message?: string } } })?.response?.data?.message ||
+                      (error as Error).message
+                  }
+                : u
             )
           );
         }
@@ -284,6 +295,8 @@ export const ProjectFileUploader = forwardRef<ProjectFileUploaderHandle, Project
                 )}
               </button>
             )}
+
+            {disabled && disabledHint && <span className="project-file-uploader__count">{disabledHint}</span>}
 
             {!disabled && (
               <button

@@ -19,6 +19,7 @@ import {
 import type { SharedProjectFile } from 'src/types';
 import { isPlayableAudioExtension } from '@shared/constants/remoteProjectFileLimits';
 import { setAuthReturnTo } from '@shared/utils/authReturnTo';
+import { prefersRedirectLogin } from '@shared/utils/botDetection';
 import { SharedTrackComments } from '../components/SharedTrackComments';
 import './styles/_project-invite-page.scss';
 import './styles/_project-share-page.scss';
@@ -130,10 +131,18 @@ export const ProjectSharePage: React.FC = () => {
     sessionStorage.setItem(JOIN_INTENT_KEY, token);
     setAuthReturnTo(returnTo);
     const uiLocales = i18n.language?.startsWith('he') ? 'he' : 'en';
+    const loginInThisTab = () =>
+      loginWithRedirect({ appState: { returnTo }, authorizationParams: { ui_locales: uiLocales } });
+    if (prefersRedirectLogin()) {
+      await loginInThisTab();
+      return;
+    }
     try {
       await loginWithPopup({ authorizationParams: { ui_locales: uiLocales } });
-    } catch {
-      await loginWithRedirect({ appState: { returnTo }, authorizationParams: { ui_locales: uiLocales } });
+    } catch (err: unknown) {
+      const code = (err as { error?: string })?.error;
+      if (code === 'cancelled' || code === 'timeout') return;
+      await loginInThisTab();
     }
   };
 

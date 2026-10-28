@@ -211,6 +211,8 @@ export interface ProjectAccess {
   canUpload?: boolean;
   canEdit?: boolean;
   canInvite: boolean;
+  /** Studio owner only: may place and manage collaborators on either side. */
+  canChooseSide?: boolean;
   canPay: boolean;
   canCustomerWorkflow: boolean;
   canVendorWorkflow: boolean;

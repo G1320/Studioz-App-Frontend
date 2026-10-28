@@ -1,8 +1,8 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { useTranslation } from 'react-i18next';
-import Cookies from 'js-cookie';
+import { useQueryClient } from '@tanstack/react-query';
 import { LogoutIcon } from '@shared/components/icons';
-import { clearGuestBookingFormStorage } from '@shared/utils/reservation-storage';
+import { logout as logoutAppSession } from '@shared/services';
 import { useUserContext } from '@core/contexts';
 import { resetAuth0LoginSyncState } from '@shared/hooks/auth/useAuth0LoginHandler';
 
@@ -11,26 +11,18 @@ interface LogoutButtonProps {
   'aria-label'?: string;
 }
 
-/**
- * Clear app session before Auth0 redirect. Without setUser(null), React keeps the
- * logged-in user in memory — dashboard stays authenticated and booking forms re-prefill.
- */
-function clearAppSession(setUser: (user: null) => void): void {
-  clearGuestBookingFormStorage();
-  localStorage.removeItem('user');
-  Cookies.remove('accessToken');
-  Cookies.remove('refreshToken');
-  resetAuth0LoginSyncState();
-  setUser(null);
-}
-
 export const LogoutButton = ({ className = '', 'aria-label': ariaLabel }: LogoutButtonProps) => {
   const { logout } = useAuth0();
   const { setUser } = useUserContext();
+  const queryClient = useQueryClient();
   const { t } = useTranslation('common');
 
-  const handleLogout = () => {
-    clearAppSession(setUser);
+  const handleLogout = async () => {
+    // The API session cookies are httpOnly, so only the server can clear them.
+    await logoutAppSession();
+    resetAuth0LoginSyncState();
+    setUser(null);
+    queryClient.clear();
     logout({
       logoutParams: {
         returnTo: window.location.origin
@@ -39,7 +31,7 @@ export const LogoutButton = ({ className = '', 'aria-label': ariaLabel }: Logout
   };
 
   return (
-    <button onClick={handleLogout} type="button" className={className} aria-label={ariaLabel}>
+    <button onClick={() => void handleLogout()} type="button" className={className} aria-label={ariaLabel}>
       <LogoutIcon className="profile-action-icon" />
       <span>{t('buttons.log_out')}</span>
     </button>
