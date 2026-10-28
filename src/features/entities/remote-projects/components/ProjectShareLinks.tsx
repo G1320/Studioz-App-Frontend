@@ -1,13 +1,13 @@
 import { useState, type FormEvent } from 'react';
-import { Check, Copy, KeyRound, Link2, Link2Off, Loader2, Pause, Pencil, Play } from 'lucide-react';
+import { Check, ChevronDown, Copy, KeyRound, Pencil, Plus } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Button } from '@shared/components';
 import { useProjectFiles } from '@shared/hooks';
 import { createShareLink, getShareLinks, revokeShareLink, updateShareLink } from '@shared/services';
 import type { ProjectFile, ProjectShareLink, ShareLinkSettingsRequest } from 'src/types';
-import { ProjectGrantEditor, grantDraftForRole, type GrantDraft } from './ProjectGrantEditor';
-import { capabilitiesRequireLogin } from '../utils/projectPermissions';
+import { GrantDetails, RoleSelect, grantDraftForRole, type GrantDraft } from './ProjectGrantEditor';
+import { capabilitiesRequireLogin, roleForCapabilities } from '../utils/projectPermissions';
 import './styles/_project-share-links.scss';
 
 const HOUR_MS = 60 * 60 * 1000;
@@ -50,10 +50,11 @@ interface ShareLinkFormProps {
   error: string | null;
   submitLabel: string;
   onSubmit: (values: ShareLinkFormValues) => void;
-  onCancel?: () => void;
+  onCancel: () => void;
+  /** Edit-only actions (pause/resume, revoke). */
+  extraActions?: React.ReactNode;
 }
 
-/** Permissions plus link options (label, expiry, password, single use) for creating or editing a link. */
 const ShareLinkForm: React.FC<ShareLinkFormProps> = ({
   initial,
   files,
@@ -61,7 +62,8 @@ const ShareLinkForm: React.FC<ShareLinkFormProps> = ({
   error,
   submitLabel,
   onSubmit,
-  onCancel
+  onCancel,
+  extraActions
 }) => {
   const { t } = useTranslation('remoteProjects');
   const [grant, setGrant] = useState<GrantDraft>(() =>
@@ -76,6 +78,17 @@ const ShareLinkForm: React.FC<ShareLinkFormProps> = ({
   const [password, setPassword] = useState('');
   const [singleUse, setSingleUse] = useState(initial?.maxJoins === 1);
   const [localError, setLocalError] = useState<string | null>(null);
+  const [moreOpen, setMoreOpen] = useState(
+    () =>
+      Boolean(initial) &&
+      Boolean(
+        initial!.label ||
+          initial!.hasPassword ||
+          initial!.maxJoins === 1 ||
+          initial!.fileIds.length ||
+          roleForCapabilities(initial!.capabilities) === 'custom'
+      )
+  );
 
   const requiresLogin = capabilitiesRequireLogin(grant.capabilities);
   const now = Date.now();
@@ -130,92 +143,104 @@ const ShareLinkForm: React.FC<ShareLinkFormProps> = ({
   };
 
   return (
-    <form className="project-share-links__create" onSubmit={submit}>
-      <ProjectGrantEditor value={grant} onChange={setGrant} files={files} disabled={submitting} />
-
+    <form className="project-share-links__form" onSubmit={submit}>
       <div className="project-share-links__row">
-        <label className="project-share-links__field">
-          <span>{t('shareLinks.labelField')}</span>
+        <RoleSelect value={grant} onChange={setGrant} disabled={submitting} />
+        <select
+          className="project-share-links__select"
+          value={expiry}
+          onChange={(e) => setExpiry(e.target.value as ExpiryChoice)}
+          aria-label={t('shareLinks.expiry')}
+          disabled={submitting}
+        >
+          <option value="never">{t('shareLinks.expiryNever')}</option>
+          {PRESET_DAYS.map((days) => (
+            <option key={days} value={String(days)}>
+              {t('shareLinks.expiryDays', { count: days })}
+            </option>
+          ))}
+          <option value="custom">{t('shareLinks.expiryCustom')}</option>
+        </select>
+      </div>
+
+      {expiry === 'custom' && (
+        <input
+          type="datetime-local"
+          className="project-share-links__input"
+          value={customExpiry}
+          min={toLocalInputValue(new Date(now + HOUR_MS))}
+          max={toLocalInputValue(new Date(now + MAX_EXPIRY_DAYS * DAY_MS))}
+          onChange={(e) => setCustomExpiry(e.target.value)}
+          aria-label={t('shareLinks.expiryCustomLabel')}
+          required
+        />
+      )}
+
+      <p className="project-share-links__note">
+        {requiresLogin ? t('shareLinks.requiresLoginNote') : t('shareLinks.anonymousNote')}
+      </p>
+
+      <button
+        type="button"
+        className="project-share-links__more"
+        onClick={() => setMoreOpen((open) => !open)}
+        aria-expanded={moreOpen}
+      >
+        {moreOpen ? t('permissions.fewerOptions') : t('permissions.moreOptions')}
+        <ChevronDown size={14} aria-hidden className={moreOpen ? 'is-open' : undefined} />
+      </button>
+
+      {moreOpen && (
+        <div className="project-share-links__more-panel">
           <input
             type="text"
+            className="project-share-links__input"
             value={label}
             maxLength={80}
             onChange={(e) => setLabel(e.target.value)}
             placeholder={t('shareLinks.labelPlaceholder')}
+            aria-label={t('shareLinks.labelField')}
           />
-        </label>
-        <label className="project-share-links__field">
-          <span>{t('shareLinks.expiry')}</span>
-          <select value={expiry} onChange={(e) => setExpiry(e.target.value as ExpiryChoice)}>
-            <option value="never">{t('shareLinks.expiryNever')}</option>
-            {PRESET_DAYS.map((days) => (
-              <option key={days} value={String(days)}>
-                {t('shareLinks.expiryDays', { count: days })}
-              </option>
-            ))}
-            <option value="custom">{t('shareLinks.expiryCustom')}</option>
-          </select>
-        </label>
-      </div>
-
-      {expiry === 'custom' && (
-        <label className="project-share-links__field">
-          <span>{t('shareLinks.expiryCustomLabel')}</span>
-          <input
-            type="datetime-local"
-            value={customExpiry}
-            min={toLocalInputValue(new Date(now + HOUR_MS))}
-            max={toLocalInputValue(new Date(now + MAX_EXPIRY_DAYS * DAY_MS))}
-            onChange={(e) => setCustomExpiry(e.target.value)}
-            required
-          />
-        </label>
-      )}
-
-      <div className="project-share-links__options">
-        <label className="project-share-links__check">
-          <input
-            type="checkbox"
-            checked={passwordEnabled}
-            onChange={(e) => setPasswordEnabled(e.target.checked)}
-          />
-          <span>{t('shareLinks.passwordToggle')}</span>
-        </label>
-        {passwordEnabled && (
-          <input
-            type="password"
-            className="project-share-links__password"
-            value={password}
-            minLength={PASSWORD_MIN_LENGTH}
-            maxLength={128}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder={
-              initial?.hasPassword ? t('shareLinks.passwordKeepPlaceholder') : t('shareLinks.passwordPlaceholder')
-            }
-            aria-label={t('shareLinks.passwordPlaceholder')}
-            autoComplete="new-password"
-          />
-        )}
-        {requiresLogin && (
           <label className="project-share-links__check">
-            <input type="checkbox" checked={singleUse} onChange={(e) => setSingleUse(e.target.checked)} />
-            <span>{t('shareLinks.singleUse')}</span>
+            <input
+              type="checkbox"
+              checked={passwordEnabled}
+              onChange={(e) => setPasswordEnabled(e.target.checked)}
+            />
+            <span>{t('shareLinks.passwordToggle')}</span>
           </label>
-        )}
-      </div>
-
-      <p className="project-share-links__login-note">
-        {requiresLogin ? t('shareLinks.requiresLoginNote') : t('shareLinks.anonymousNote')}
-      </p>
+          {passwordEnabled && (
+            <input
+              type="password"
+              className="project-share-links__input"
+              value={password}
+              minLength={PASSWORD_MIN_LENGTH}
+              maxLength={128}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder={
+                initial?.hasPassword ? t('shareLinks.passwordKeepPlaceholder') : t('shareLinks.passwordPlaceholder')
+              }
+              aria-label={t('shareLinks.passwordPlaceholder')}
+              autoComplete="new-password"
+            />
+          )}
+          {requiresLogin && (
+            <label className="project-share-links__check">
+              <input type="checkbox" checked={singleUse} onChange={(e) => setSingleUse(e.target.checked)} />
+              <span>{t('shareLinks.singleUse')}</span>
+            </label>
+          )}
+          <GrantDetails value={grant} onChange={setGrant} files={files} disabled={submitting} />
+        </div>
+      )}
 
       {localError || error ? <p className="project-collaborators__error">{localError || error}</p> : null}
 
       <div className="project-share-links__form-actions">
-        {onCancel && (
-          <Button type="button" className="button--secondary" onClick={onCancel} disabled={submitting}>
-            {t('common.cancel')}
-          </Button>
-        )}
+        {extraActions ? <div className="project-share-links__extra-actions">{extraActions}</div> : null}
+        <Button type="button" className="button--secondary" onClick={onCancel} disabled={submitting}>
+          {t('common.cancel')}
+        </Button>
         <Button type="submit" className="button--primary" disabled={submitting}>
           {submitting ? t('common.processing') : submitLabel}
         </Button>
@@ -232,8 +257,8 @@ export const ProjectShareLinks: React.FC<ProjectShareLinksProps> = ({ projectId 
   const { t, i18n } = useTranslation('remoteProjects');
   const queryClient = useQueryClient();
   const { files } = useProjectFiles({ projectId });
+  const [creating, setCreating] = useState(false);
   const [createError, setCreateError] = useState<string | null>(null);
-  const [createKey, setCreateKey] = useState(0);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editError, setEditError] = useState<string | null>(null);
   const [copiedId, setCopiedId] = useState<string | null>(null);
@@ -260,6 +285,11 @@ export const ProjectShareLinks: React.FC<ProjectShareLinksProps> = ({ projectId 
     }
   };
 
+  const closeEditor = () => {
+    setEditingId(null);
+    setEditError(null);
+  };
+
   const createMutation = useMutation({
     mutationFn: ({ grant, settings }: ShareLinkFormValues) =>
       createShareLink(projectId, {
@@ -269,7 +299,7 @@ export const ProjectShareLinks: React.FC<ProjectShareLinksProps> = ({ projectId 
       }),
     onSuccess: async ({ shareLink }) => {
       setCreateError(null);
-      setCreateKey((k) => k + 1);
+      setCreating(false);
       invalidate();
       await copy(shareLink);
     },
@@ -280,8 +310,7 @@ export const ProjectShareLinks: React.FC<ProjectShareLinksProps> = ({ projectId 
     mutationFn: ({ linkId, values }: { linkId: string; values: ShareLinkFormValues }) =>
       updateShareLink(projectId, linkId, { ...grantRequest(values.grant), ...values.settings }),
     onSuccess: () => {
-      setEditingId(null);
-      setEditError(null);
+      closeEditor();
       invalidate();
     },
     onError: (err: unknown) => setEditError(apiErrorMessage(err) || t('shareLinks.updateFailed'))
@@ -290,12 +319,20 @@ export const ProjectShareLinks: React.FC<ProjectShareLinksProps> = ({ projectId 
   const pauseMutation = useMutation({
     mutationFn: ({ linkId, active }: { linkId: string; active: boolean }) =>
       updateShareLink(projectId, linkId, { active }),
-    onSuccess: invalidate
+    onSuccess: () => {
+      closeEditor();
+      invalidate();
+    },
+    onError: (err: unknown) => setEditError(apiErrorMessage(err) || t('shareLinks.updateFailed'))
   });
 
   const revokeMutation = useMutation({
     mutationFn: (linkId: string) => revokeShareLink(projectId, linkId),
-    onSuccess: invalidate
+    onSuccess: () => {
+      closeEditor();
+      invalidate();
+    },
+    onError: (err: unknown) => setEditError(apiErrorMessage(err) || t('shareLinks.updateFailed'))
   });
 
   const handleRevoke = (link: ProjectShareLink) => {
@@ -305,8 +342,6 @@ export const ProjectShareLinks: React.FC<ProjectShareLinksProps> = ({ projectId 
 
   const statusText = (link: ProjectShareLink) => {
     switch (link.status) {
-      case 'revoked':
-        return t('shareLinks.revoked');
       case 'expired':
         return t('shareLinks.expired');
       case 'used':
@@ -315,54 +350,87 @@ export const ProjectShareLinks: React.FC<ProjectShareLinksProps> = ({ projectId 
         return t('shareLinks.paused');
       default:
         return link.expiresAt
-          ? t('shareLinks.expiresOn', { date: new Date(link.expiresAt).toLocaleString() })
+          ? t('shareLinks.expiresOn', { date: new Date(link.expiresAt).toLocaleDateString() })
           : t('shareLinks.expiryNever');
     }
   };
 
-  const links = data?.shareLinks ?? [];
+  const links = (data?.shareLinks ?? []).filter((link) => link.status !== 'revoked');
+  const busy = pauseMutation.isPending || revokeMutation.isPending;
 
   return (
-    <section className="project-share-links" aria-labelledby="project-share-links-title">
-      <h4 id="project-share-links-title" className="project-share-links__title">
-        <Link2 size={16} aria-hidden /> {t('shareLinks.title')}
-      </h4>
-      <p className="project-share-links__hint">{t('shareLinks.hint')}</p>
-
-      <ShareLinkForm
-        key={createKey}
-        files={files}
-        submitting={createMutation.isPending}
-        error={createError}
-        submitLabel={t('shareLinks.create')}
-        onSubmit={(values) => createMutation.mutate(values)}
-      />
+    <section className="project-share-links" aria-label={t('shareLinks.title')}>
+      {creating ? (
+        <ShareLinkForm
+          files={files}
+          submitting={createMutation.isPending}
+          error={createError}
+          submitLabel={t('shareLinks.create')}
+          onSubmit={(values) => createMutation.mutate(values)}
+          onCancel={() => {
+            setCreating(false);
+            setCreateError(null);
+          }}
+        />
+      ) : (
+        <Button
+          type="button"
+          className="button--secondary project-share-links__new"
+          onClick={() => {
+            closeEditor();
+            setCreating(true);
+          }}
+        >
+          <Plus size={16} aria-hidden /> {t('shareLinks.newLink')}
+        </Button>
+      )}
 
       {isLoading ? (
         <div className="project-collaborators__loading">{t('common.loading')}</div>
       ) : links.length > 0 ? (
         <ul className="project-share-links__list">
           {links.map((link) => {
-            const active = link.status === 'active';
-            const editable = link.status !== 'revoked';
+            const roleName = t(`permissions.roles.${link.role}.name`);
             if (editingId === link._id) {
               return (
                 <li key={link._id} className="project-share-links__item project-share-links__item--editing">
                   <ShareLinkForm
                     initial={link}
                     files={files}
-                    submitting={editMutation.isPending}
+                    submitting={editMutation.isPending || busy}
                     error={editError}
                     submitLabel={t('shareLinks.save')}
                     onSubmit={(values) => editMutation.mutate({ linkId: link._id, values })}
-                    onCancel={() => {
-                      setEditingId(null);
-                      setEditError(null);
-                    }}
+                    onCancel={closeEditor}
+                    extraActions={
+                      <>
+                        {(link.status === 'active' || link.status === 'paused') && (
+                          <button
+                            type="button"
+                            className="project-share-links__text-action"
+                            onClick={() =>
+                              pauseMutation.mutate({ linkId: link._id, active: link.status === 'paused' })
+                            }
+                            disabled={busy}
+                          >
+                            {link.status === 'paused' ? t('shareLinks.resume') : t('shareLinks.pause')}
+                          </button>
+                        )}
+                        <button
+                          type="button"
+                          className="project-share-links__text-action project-share-links__text-action--danger"
+                          onClick={() => handleRevoke(link)}
+                          disabled={busy}
+                        >
+                          {t('shareLinks.revoke')}
+                        </button>
+                      </>
+                    }
                   />
                 </li>
               );
             }
+            const active = link.status === 'active';
             return (
               <li
                 key={link._id}
@@ -370,7 +438,7 @@ export const ProjectShareLinks: React.FC<ProjectShareLinksProps> = ({ projectId 
               >
                 <div className="project-share-links__item-info">
                   <div className="project-share-links__item-name">
-                    {link.label || t(`permissions.roles.${link.role}.name`)}
+                    {link.label || roleName}
                     {link.hasPassword && (
                       <KeyRound
                         size={12}
@@ -380,17 +448,15 @@ export const ProjectShareLinks: React.FC<ProjectShareLinksProps> = ({ projectId 
                     )}
                   </div>
                   <div className="project-share-links__item-meta">
-                    {t(`permissions.roles.${link.role}.name`)}
-                    {' · '}
-                    {link.fileIds.length
-                      ? t('shareLinks.scopeCount', { count: link.fileIds.length })
-                      : t('permissions.scopeAll')}
-                    {link.maxJoins === 1 ? ` · ${t('shareLinks.singleUseBadge')}` : ''}
-                    {' · '}
-                    {statusText(link)}
-                  </div>
-                  <div className="project-share-links__item-meta">
-                    {t('shareLinks.stats', { views: link.viewCount, joins: link.joinCount })}
+                    {[
+                      link.label ? roleName : null,
+                      link.fileIds.length ? t('shareLinks.scopeCount', { count: link.fileIds.length }) : null,
+                      link.maxJoins === 1 ? t('shareLinks.singleUseBadge') : null,
+                      statusText(link),
+                      t('shareLinks.views', { count: link.viewCount })
+                    ]
+                      .filter(Boolean)
+                      .join(' · ')}
                   </div>
                 </div>
                 <div className="project-collaborators__item-actions">
@@ -399,62 +465,33 @@ export const ProjectShareLinks: React.FC<ProjectShareLinksProps> = ({ projectId 
                       type="button"
                       className="project-icon-action project-icon-action--round project-icon-action--neutral"
                       onClick={() => copy(link)}
-                      aria-label={t('shareLinks.copy')}
-                      title={t('shareLinks.copy')}
+                      aria-label={copiedId === link._id ? t('shareLinks.copied') : t('shareLinks.copy')}
+                      title={copiedId === link._id ? t('shareLinks.copied') : t('shareLinks.copy')}
                     >
                       {copiedId === link._id ? <Check aria-hidden /> : <Copy aria-hidden />}
                     </button>
                   )}
-                  {editable && (
-                    <button
-                      type="button"
-                      className="project-icon-action project-icon-action--round project-icon-action--neutral"
-                      onClick={() => {
-                        setEditError(null);
-                        setEditingId(link._id);
-                      }}
-                      aria-label={t('shareLinks.edit')}
-                      title={t('shareLinks.edit')}
-                    >
-                      <Pencil aria-hidden />
-                    </button>
-                  )}
-                  {(link.status === 'active' || link.status === 'paused') && (
-                    <button
-                      type="button"
-                      className="project-icon-action project-icon-action--round project-icon-action--neutral"
-                      onClick={() => pauseMutation.mutate({ linkId: link._id, active: link.status === 'paused' })}
-                      disabled={pauseMutation.isPending}
-                      aria-label={link.status === 'paused' ? t('shareLinks.resume') : t('shareLinks.pause')}
-                      title={link.status === 'paused' ? t('shareLinks.resume') : t('shareLinks.pause')}
-                    >
-                      {link.status === 'paused' ? <Play aria-hidden /> : <Pause aria-hidden />}
-                    </button>
-                  )}
-                  {editable && (
-                    <button
-                      type="button"
-                      className="project-icon-action project-icon-action--round project-icon-action--danger"
-                      onClick={() => handleRevoke(link)}
-                      disabled={revokeMutation.isPending}
-                      aria-label={t('shareLinks.revoke')}
-                      title={t('shareLinks.revoke')}
-                    >
-                      {revokeMutation.isPending && revokeMutation.variables === link._id ? (
-                        <Loader2 className="project-icon-action__spin" aria-hidden />
-                      ) : (
-                        <Link2Off aria-hidden />
-                      )}
-                    </button>
-                  )}
+                  <button
+                    type="button"
+                    className="project-icon-action project-icon-action--round project-icon-action--neutral"
+                    onClick={() => {
+                      setCreating(false);
+                      setEditError(null);
+                      setEditingId(link._id);
+                    }}
+                    aria-label={t('shareLinks.edit')}
+                    title={t('shareLinks.edit')}
+                  >
+                    <Pencil aria-hidden />
+                  </button>
                 </div>
               </li>
             );
           })}
         </ul>
-      ) : (
-        <p className="project-share-links__empty">{t('shareLinks.empty')}</p>
-      )}
+      ) : !creating ? (
+        <p className="project-share-links__empty">{t('shareLinks.hint')}</p>
+      ) : null}
     </section>
   );
 };

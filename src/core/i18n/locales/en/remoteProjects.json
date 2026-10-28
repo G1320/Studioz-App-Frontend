@@ -213,6 +213,11 @@
   "vendor": "Studio",
   "collaborators": {
     "title": "Collaborators",
+    "shareTitle": "Share project",
+    "tabs": { "people": "People", "links": "Links" },
+    "emailLabel": "Email address",
+    "inviteShort": "Invite",
+    "updateFailed": "Could not update collaborator",
     "hint": "Invite teammates by email and choose exactly what they can do.",
     "viaLink": "joined via link",
     "empty": "No collaborators yet.",
@@ -266,10 +271,12 @@
       },
       "editor": {
         "name": "Editor",
-        "description": "Everything, including deleting files and workflow actions."
+        "description": "Everything, including deleting files, workflow actions and inviting others."
       },
       "custom": { "name": "Custom", "description": "A custom set of permissions." }
     },
+    "moreOptions": "More options",
+    "fewerOptions": "Fewer options",
     "showAdvanced": "Customize permissions",
     "hideAdvanced": "Hide permissions",
     "capabilitiesTitle": "Permissions",
@@ -291,6 +298,9 @@
     "title": "Share links",
     "hint": "Listen, comment, and download links work without an account, in original quality. Links that also allow uploading or editing require signing in.",
     "create": "Create link",
+    "newLink": "New link",
+    "views_one": "{{count}} view",
+    "views_other": "{{count}} views",
     "createFailed": "Could not create link",
     "save": "Save changes",
     "edit": "Edit link",

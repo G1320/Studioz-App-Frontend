@@ -258,10 +258,7 @@ export const ProjectDetailPage: React.FC = () => {
   const canDownload = access?.canDownload ?? true;
   const canUpload = access?.canUpload ?? (isPrimaryCustomer || isPrimaryVendor);
   const canEditFiles = access?.canEdit ?? (isPrimaryCustomer || isPrimaryVendor);
-  // Primary customer/vendor only. Collaborators cannot invite (API returns 403).
-  const canInvite =
-    access?.isCollaborator !== true &&
-    (access?.canInvite === true || access?.isPrimary === true || isPrimaryVendor || isPrimaryCustomer);
+  const canInvite = access ? access.canInvite : isPrimaryVendor || isPrimaryCustomer;
   const userRole = access?.side || (isVendor ? 'vendor' : 'customer');
 
   const handleAccept = async () => {
