@@ -1,4 +1,5 @@
 import { Auth0Provider, AppState } from '@auth0/auth0-react';
+import { useNavigate } from 'react-router-dom';
 import i18n from '@core/i18n/config';
 import {
   getPendingProjectInviteToken,
@@ -28,10 +29,11 @@ function resolvePostLoginPath(appState?: AppState): string | null {
 
 /**
  * Auth0Provider that returns users to the page they logged in from.
- * Uses a full navigation (location.replace) because React Router navigate()
- * during Auth0's redirect callback is unreliable and often leaves users on `/`.
+ * Navigates in-app rather than reloading: Auth0 keeps the fresh session in memory only,
+ * so a reload right after the callback can lose it before the app session is created.
  */
 export function Auth0ProviderWithRedirect({ children }: { children: React.ReactNode }) {
+  const navigate = useNavigate();
   return (
     <Auth0Provider
       domain={domain}
@@ -48,12 +50,12 @@ export function Auth0ProviderWithRedirect({ children }: { children: React.ReactN
           setAuthReturnTo(dest);
           const current = `${window.location.pathname}${window.location.search}${window.location.hash}`;
           if (dest !== current && dest !== window.location.pathname) {
-            window.location.replace(dest);
+            navigate(dest, { replace: true });
             return;
           }
         }
         // Strip Auth0 ?code=&state= when staying put
-        window.history.replaceState({}, document.title, window.location.pathname);
+        navigate(window.location.pathname, { replace: true });
       }}
     >
       {children}
