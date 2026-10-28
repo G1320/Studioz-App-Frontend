@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import { ArrowLeftRight, Check, ChevronDown, Loader2, LogOut, MailX, Plus, UserMinus, X } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { toast } from 'sonner';
 import { Button } from '@shared/components';
 import {
   approveAccessRequest,
@@ -122,7 +123,8 @@ export const ProjectCollaborators: React.FC<ProjectCollaboratorsProps> = ({
         fileIds: inviteGrant.fileIds.length ? inviteGrant.fileIds : undefined,
         ...(canChooseSide ? { side: inviteSide } : {})
       }),
-    onSuccess: () => {
+    onSuccess: (_data, inviteEmail) => {
+      toast.success(t('collaborators.sentTo', { email: inviteEmail }));
       setEmail('');
       setError(null);
       invalidate();

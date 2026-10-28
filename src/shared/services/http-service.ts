@@ -1,14 +1,39 @@
 import Axios, { AxiosError } from 'axios';
 import Cookies from 'js-cookie';
 import { JwtPayload, jwtDecode } from 'jwt-decode';
-import { refreshAccessToken } from '@shared/services/auth-service';
 
 const BASE_URL: string =
   import.meta.env.VITE_NODE_ENV === 'production' ? 'https://api.studioz.co.il/api' : 'http://localhost:3003/api';
 
+const REQUEST_TIMEOUT_MS = 120_000;
+
 const axios = Axios.create({
-  withCredentials: true
+  withCredentials: true,
+  timeout: REQUEST_TIMEOUT_MS
 });
+
+let refreshInFlight: Promise<string> | null = null;
+
+/**
+ * Calls the refresh endpoint directly. Going through ajax() would re-enter getAccessToken(),
+ * which sees the same expired cookie and refreshes again, forever.
+ * Concurrent callers share one request.
+ */
+export function refreshSession(): Promise<string> {
+  if (!refreshInFlight) {
+    refreshInFlight = axios
+      .post<{ accessToken: string }>(`${BASE_URL}/auth/refresh-token`)
+      .then(({ data }) => {
+        Cookies.set('accessToken', data.accessToken, { expires: 1 / 96 });
+        setAuthorizationHeader(data.accessToken);
+        return data.accessToken;
+      })
+      .finally(() => {
+        refreshInFlight = null;
+      });
+  }
+  return refreshInFlight;
+}
 
 export const httpService = {
   get: <T>(endpoint: string, data: unknown = null): Promise<T> => ajax<T>(endpoint, 'GET', data),
@@ -19,7 +44,7 @@ export const httpService = {
   delete: <T>(endpoint: string, data: unknown = null): Promise<T> => ajax<T>(endpoint, 'DELETE', data)
 };
 
-async function ajax<T>(endpoint: string, method = 'GET', data: unknown = null): Promise<T> {
+async function ajax<T>(endpoint: string, method = 'GET', data: unknown = null, retried = false): Promise<T> {
   try {
     const accessToken = await getAccessToken();
     setAuthorizationHeader(accessToken as string);
@@ -28,11 +53,11 @@ async function ajax<T>(endpoint: string, method = 'GET', data: unknown = null): 
     // Make the actual request using Axios
     return (await axios({ url: `${BASE_URL}${endpoint}`, method, ...config })).data;
   } catch (err) {
-    // Retrying the request if 401 Unauthorized
-    if (isAxiosError(err) && err.response && err.response.status === 401) {
+    // Retry once after refreshing if 401 Unauthorized
+    if (!retried && isAxiosError(err) && err.response && err.response.status === 401) {
       try {
-        const refreshedToken = await refreshAccessToken();
-        if (refreshedToken) return ajax(endpoint, method, data);
+        const refreshedToken = await refreshSession();
+        if (refreshedToken) return ajax(endpoint, method, data, true);
       } catch (refreshError) {
         console.error('Failed to refresh token', refreshError);
         sessionStorage.clear();
@@ -46,7 +71,7 @@ async function ajax<T>(endpoint: string, method = 'GET', data: unknown = null): 
 }
 
 /** GET request that returns response body as plain text (e.g. for HTML preview). */
-async function ajaxText(endpoint: string, method = 'GET', data: unknown = null): Promise<string> {
+async function ajaxText(endpoint: string, method = 'GET', data: unknown = null, retried = false): Promise<string> {
   try {
     const accessToken = await getAccessToken();
     setAuthorizationHeader(accessToken as string);
@@ -57,10 +82,10 @@ async function ajaxText(endpoint: string, method = 'GET', data: unknown = null):
     const res = await axios({ url: `${BASE_URL}${endpoint}`, method, ...config });
     return res.data as string;
   } catch (err) {
-    if (isAxiosError(err) && err.response && err.response.status === 401) {
+    if (!retried && isAxiosError(err) && err.response && err.response.status === 401) {
       try {
-        const refreshedToken = await refreshAccessToken();
-        if (refreshedToken) return ajaxText(endpoint, method, data);
+        const refreshedToken = await refreshSession();
+        if (refreshedToken) return ajaxText(endpoint, method, data, true);
       } catch (refreshError) {
         console.error('Failed to refresh token', refreshError);
         sessionStorage.clear();
@@ -80,12 +105,8 @@ async function getAccessToken() {
 
   if (!decodedToken.exp || decodedToken.exp < Date.now() / 1000) {
     try {
-      const refreshedToken = await refreshAccessToken();
-      if (refreshedToken.accessToken) {
-        accessToken = refreshedToken.accessToken;
-      } else {
-        throw new Error('Failed to get new access token');
-      }
+      accessToken = await refreshSession();
+      if (!accessToken) throw new Error('Failed to get new access token');
     } catch (refreshError) {
       console.error('Failed to refresh token', refreshError);
       throw refreshError;

@@ -26,7 +26,8 @@ import {
   ProjectMessage,
   CreateProjectRequest,
   ProjectFileType,
-  DownloadLockResponse
+  DownloadLockResponse,
+  MessagesResponse
 } from 'src/types/index';
 import { useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
@@ -255,7 +256,11 @@ export const useUploadFileMutation = () => {
       uploadProjectFile(projectId, file, type, description, onProgress),
     successMessage: t('toasts.success.fileUploaded', 'File uploaded'),
     invalidateQueries: [{ queryKey: 'projectFiles' }],
-    onSuccess: (_data, { projectId }) => {
+    onSuccess: (file, { projectId, type }) => {
+      // Show the file immediately; the refetch below only confirms it.
+      queryClient.setQueryData<{ files: ProjectFile[] }>(['projectFiles', projectId, type], (old) =>
+        old ? { ...old, files: [file, ...old.files.filter((f) => f._id !== file._id)] } : old
+      );
       queryClient.invalidateQueries({ queryKey: ['projectFiles', projectId] });
       queryClient.invalidateQueries({ queryKey: ['remoteProject', projectId] });
     }
@@ -299,7 +304,13 @@ export const useSendMessageMutation = () => {
       sendMessage(projectId, message, { attachmentIds, fileId, offsetSeconds, parentId }),
     // No success message for messages - feels more natural
     invalidateQueries: [{ queryKey: 'projectMessages' }],
-    onSuccess: (_data, { projectId }) => {
+    onSuccess: (message, { projectId }) => {
+      // Show the message immediately; the refetch below only confirms it.
+      queryClient.setQueriesData<MessagesResponse>({ queryKey: ['projectMessages', projectId] }, (old) =>
+        old && !old.messages.some((m) => m._id === message._id)
+          ? { ...old, messages: [...old.messages, message] }
+          : old
+      );
       queryClient.invalidateQueries({ queryKey: ['projectMessages', projectId] });
     }
   });

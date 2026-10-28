@@ -1,4 +1,5 @@
 import { httpService } from '@shared/services';
+import { refreshSession } from '@shared/services/http-service';
 import Cookies from 'js-cookie';
 import { sanitizeUserObject } from '@shared/utils';
 import { clearGuestBookingFormStorage } from '@shared/utils/reservation-storage';
@@ -45,9 +46,7 @@ export const login = async (credentials: LoginCredentials): Promise<User> => {
 
 export const refreshAccessToken = async (): Promise<{ accessToken: string }> => {
   try {
-    const { accessToken } = await httpService.post<{ accessToken: string }>(`${authEndpoint}/refresh-token`);
-    Cookies.set('accessToken', accessToken, { expires: 1 / 96 });
-    return { accessToken };
+    return { accessToken: await refreshSession() };
   } catch (error: unknown) {
     console.error('Refresh token failed', error);
     throw error;
